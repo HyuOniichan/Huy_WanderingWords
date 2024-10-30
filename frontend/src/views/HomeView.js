@@ -1,8 +1,16 @@
 function HomeView() {
     return (
-        <div>
-            This is HomeView
-        </div>
+        <>
+
+            <h1>
+                Wandering Words 
+            </h1>
+
+            <h2>
+                Where words roam free 
+            </h2>
+
+        </>
     )
 }
 
