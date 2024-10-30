@@ -9,6 +9,7 @@ const route = require('./routes/index');
 const app = express(); 
 
 // middleware 
+app.use(express.json())
 app.use(cors()); 
 
 // start 
