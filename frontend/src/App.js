@@ -2,17 +2,19 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Navbar from "./components/baseComponents/Navbar";
 import HomeView from "./views/HomeView";
-import BlogView from './views/BlogView';
+import BlogsView from './views/BlogsView';
+import BlogDetailView from './views/BlogDetailView';
 
 function App() {
 	return (
 		<BrowserRouter>
-			<div className="App">
+			<div className="App pt-4">
 				<Navbar />
-				<div className="container">
+				<div className="container mt-5">
 					<Routes>
 						<Route path='/' element={<HomeView />} />
-						<Route path='/blog' element={<BlogView />} />
+						<Route path='/blog' element={<BlogsView />} />
+						<Route path='/blog/:id' element={<BlogDetailView />} />
 					</Routes>
 				</div>
 			</div>
