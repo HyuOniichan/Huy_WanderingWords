@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
+import WaitingPage from "../baseComponents/WaitingPage";
 
 function BlogList() {
 
@@ -13,8 +14,11 @@ function BlogList() {
     }, [])
 
     return (
-        <div className="row mb-2">
-            {blogs? blogs.map((blog, index) => <BlogCard key={index} blog={blog} />) : `Something went wrong...`}
+        <div>
+            <h1 className="m-4">Blogs</h1>
+            <div className="row mb-2">
+                {blogs? blogs.map((blog, index) => <BlogCard key={index} blog={blog} />) : <WaitingPage />}
+            </div>
         </div>
     )
 }
