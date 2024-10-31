@@ -8,7 +8,9 @@ function BlogCard({ blog }) {
                 <div className="col p-4 d-flex flex-column position-static">
                     <strong className="d-inline-block mb-2 text-primary-emphasis">Tech</strong>
                     <h3 className="mb-0">{blog.title}</h3>
-                    <div className="mb-1 text-body-secondary">{blog.createdAt ? blog.createdAt : ``}</div>
+                    <div className="mb-1 text-body-secondary">
+                        {blog.author.name ? blog.author.name : 'Anonymous'} - pulished on {blog.createdAt ? blog.createdAt : ``}
+                    </div>
                     {/* <div className="card-text mb-auto" id="blogContentPreview" style={{ maxWith: 400, textOverflow: 'ellipsis' }}></div> */}
                     <Link to={`/blog/${blog._id}`} className="icon-link gap-1 icon-link-hover stretched-link">
                         Explore
