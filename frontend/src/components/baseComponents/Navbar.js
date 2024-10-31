@@ -1,4 +1,5 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 function Navbar() {
     return (
@@ -13,10 +14,12 @@ function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <NavLink to="/" className="nav-link" activeClassName="active">Home</NavLink>
+                            <Link to="/" className="nav-link active">Home</Link>
+                            {/* <NavLink to="/" className={(navData) => (navData.isActive ? "active" : null)}>Home</NavLink> */}
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/blog" className="nav-link" activeClassName="active">Blog</NavLink>
+                            <Link to="/blog" className="nav-link">Blog</Link>
+                            {/* <NavLink to="/" className={(navData) => (navData.isActive ? "active" : null)}>Blog</NavLink> */}
                         </li>
                     </ul>
                     <form className="d-flex" role="search">
