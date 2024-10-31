@@ -1,4 +1,4 @@
-import BlogList from "../components/blogComponents/BlogList";
+import BlogList from "../components/blogComponents/BlogsComponents/BlogList";
 import Breadcrumb from "../components/baseComponents/Breadcrumb";
 
 function BlogsView() {

@@ -1,5 +1,5 @@
-import BlogDetailPost from "../components/blogComponents/BlogDetailPost";
-import BlogDetailRelated from "../components/blogComponents/BlogDetailRelated";
+import BlogDetailPost from "../components/blogComponents/BlogDetailComponents/BlogDetailPost";
+import BlogDetailRelated from "../components/blogComponents/BlogDetailComponents/BlogDetailRelated";
 
 function BlogDetailView() {
     return (

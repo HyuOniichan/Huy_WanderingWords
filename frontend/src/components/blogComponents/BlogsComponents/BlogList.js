@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
-import WaitingPage from "../baseComponents/WaitingPage";
+import WaitingPage from "../../baseComponents/WaitingPage";
 
 function BlogList() {
 

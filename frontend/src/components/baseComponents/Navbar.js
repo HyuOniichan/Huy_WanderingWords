@@ -22,6 +22,11 @@ function Navbar() {
                             {/* <NavLink to="/" className={(navData) => (navData.isActive ? "active" : null)}>Blog</NavLink> */}
                         </li>
                     </ul>
+                    <Link to='/blog/create'>
+                        <button type="button" className="btn btn-primary me-3">
+                            Create
+                        </button>
+                    </Link>
                     <form className="d-flex" role="search">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                         <button className="btn btn-outline-success" type="submit">Search</button>

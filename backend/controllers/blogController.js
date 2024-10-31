@@ -15,6 +15,12 @@ class blogController {
             .catch(err => res.json(err))
     }
 
+    // [POST] /blog
+    create(req, res, next) {
+        blogData.create(req.body)
+            .then(data => res.status(200).json(data))
+            .catch(err => res.json(err))
+    }
 }
 
 module.exports = new blogController(); 

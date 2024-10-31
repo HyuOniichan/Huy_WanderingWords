@@ -4,6 +4,7 @@ import Navbar from "./components/baseComponents/Navbar";
 import HomeView from "./views/HomeView";
 import BlogsView from './views/BlogsView';
 import BlogDetailView from './views/BlogDetailView';
+import BlogCreateView from './views/BlogCreateView';
 
 function App() {
 	return (
@@ -14,6 +15,7 @@ function App() {
 					<Routes>
 						<Route path='/' element={<HomeView />} />
 						<Route path='/blog' element={<BlogsView />} />
+						<Route path='/blog/create' element={<BlogCreateView />} />
 						<Route path='/blog/:id' element={<BlogDetailView />} />
 					</Routes>
 				</div>
