@@ -23,8 +23,8 @@ function BlogDetailPost() {
 
 
     return (
-        <div className="col-md-8">
-            <div className="mb-1 text-body-secondary">
+        <div className="col-md-8 pt-4">
+            <div className="text-body-secondary">
                 {blog ? blog.author.name : 'Anonymous'} {(blog && blog.createdAt)? ` - published on ${blog.createdAt}` : ``}
             </div>
             <h1>{blog ? blog.title : `Title`}</h1>
