@@ -18,7 +18,7 @@ function UserProfileCard() {
 
     return (
         <div className="position-relative">
-            <BackBtn /> 
+            <BackBtn path={''} /> 
             <section className="h-100 gradient-custom-2">
                 <div className="container py-5 h-100">
                     <div className="row d-flex justify-content-center">
