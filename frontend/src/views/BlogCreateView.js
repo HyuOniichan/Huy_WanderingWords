@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import BackBtn from "../components/baseComponents/BackBtn";
 import BlogCreateEdit from "../components/blogComponents/BlogCreateComponents/BlogCreateEdit";
 import BlogCreateOption from "../components/blogComponents/BlogCreateComponents/BlogCreateOption";
 
@@ -13,9 +14,10 @@ function BlogCreateView() {
     }]);
 
     return (
-        <div className="row">
+        <div className="row position-relative pt-5">
             <BlogCreateEdit data={[[title, setTitle], [thumbnail, setThumbnail], [content, setContent]]} /> 
             <BlogCreateOption data={[title, thumbnail, content]} /> 
+            <BackBtn path={'blog'} /> 
         </div>
     )
 }
