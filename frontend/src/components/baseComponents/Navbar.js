@@ -12,7 +12,7 @@ function Navbar() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul className="navbar-nav mb-2 mb-lg-0">
                         <li className="nav-item">
                             <Link to="/" className="nav-link active">Home</Link>
                             {/* <NavLink to="/" className={(navData) => (navData.isActive ? "active" : null)}>Home</NavLink> */}
@@ -22,15 +22,21 @@ function Navbar() {
                             {/* <NavLink to="/" className={(navData) => (navData.isActive ? "active" : null)}>Blog</NavLink> */}
                         </li>
                     </ul>
-                    <Link to='/blog/create'>
-                        <button type="button" className="btn btn-primary me-3">
-                            Create
-                        </button>
-                    </Link>
-                    <form className="d-flex" role="search">
+                    <form className="d-flex mx-auto" role="search">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
+                    <div>
+                        <Link to='/blog/create'>
+                            <button type="button" className="btn btn-primary me-3">
+                                Create
+                            </button>
+                        </Link>
+                        <Link to='/user/hyuhyu'>
+                            <img src="https://avatars.githubusercontent.com/u/119403471" className="rounded-circle shadow-sm"
+                                style={{ width: 40 }} alt="Avatar" />
+                        </Link>
+                    </div>
                 </div>
             </div>
         </nav>
