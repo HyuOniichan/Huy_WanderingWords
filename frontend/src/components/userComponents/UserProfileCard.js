@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import BackBtn from "../baseComponents/BackBtn";
 
 function UserProfileCard() {
 
-    const { username } = useParams();
     const [profile, setProfile] = useState(); 
+    const { username } = useParams();
+
+    const location = useLocation(); 
+    const urlParams = new URLSearchParams(location.search); 
+    const tabParam = urlParams.get('tab'); 
+
+    console.log(tabParam)
 
     useEffect(() => {
         fetch(`http://localhost:8000/v1/user/${username}`)
@@ -13,8 +19,6 @@ function UserProfileCard() {
             .then(data => {setProfile(data[0])})
             .catch(err => console.log(err))
     }, [username])
-
-    console.log(profile)
 
     return (
         <div className="position-relative">
