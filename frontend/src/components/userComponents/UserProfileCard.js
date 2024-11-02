@@ -66,7 +66,9 @@ function UserProfileCard() {
                                     </div>
                                     <div className="d-flex justify-content-between align-items-center mb-4 text-body">
                                         <p className="lead fw-normal mb-0">Recent blogs</p>
-                                        <p className="mb-0"><a href="/" className="text-muted">Show all</a></p>
+                                        <Link to={`/blog?author=${profile? profile.username : ''}`}>
+                                            <p className="mb-0">Show all</p>
+                                        </Link>
                                     </div>
                                     <div className="row g-2">
                                         {(profile && profile.blogs[0])? <div className="col mb-2">
