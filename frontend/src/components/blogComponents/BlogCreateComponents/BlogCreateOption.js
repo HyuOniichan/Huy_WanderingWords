@@ -4,20 +4,23 @@ import { Link } from "react-router-dom";
 function BlogCreateOption({ data }) {
 
     const [title, thumbnail, content] = data;
-    const [author, setAuthor] = useState('');
     const [tags, setTags] = useState('');
 
+    const currentUserId = '67220acc07a7a2d4ef000f15';
+
     function saveDraft() {
-        setAuthor(author.trim());
-        const arrTags = tags.trim().split(',').map(tag => tag.trim());
+        const arrTags = tags.trim().split(',').map(tag => tag.trim()).filter(e => e);
+        const arrContent = content.filter(e => e.heading); 
+
         const newBlog = {
             title: title,
             thumbnail: thumbnail,
-            content: content,
-            author: author,
+            content: arrContent,
+            author: currentUserId,
             tags: arrTags,
             comments: [],
-            status: 'draft',
+            published: false, 
+            deleted: false
         }
 
         fetch("http://localhost:8000/v1/blog", {
@@ -34,15 +37,6 @@ function BlogCreateOption({ data }) {
             <div className="d-flex flex-column flex-shrink-0 p-3 bg-light">
                 <h2 className="mb-3 mb-md-0 link-dark fs-4 text-center">Editor sidebar</h2>
                 <hr />
-                <div className="input-group mb-3">
-                    <span className="input-group-text">Author</span>
-                    <input
-                        className="form-control"
-                        placeholder="username"
-                        onChange={e => setAuthor(e.target.value)}
-                        value={author}
-                    />
-                </div>
                 <div className="input-group mb-3">
                     <span className="input-group-text">Tags</span>
                     <input
