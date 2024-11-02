@@ -5,7 +5,7 @@ function BackBtn({ path }) {
         <Link to={'/' + path}>
             <button
                 type="button"
-                class="btn btn-light position-absolute start-2 d-flex justify-content-center align-items-center"
+                className="btn btn-light position-absolute start-2 d-flex justify-content-center align-items-center"
                 style={{ width: 100, top: -5 }}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368">
