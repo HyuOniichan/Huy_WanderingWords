@@ -70,7 +70,7 @@ function UserProfileCard() {
                                     </div>
                                     <div className="d-flex justify-content-between align-items-center mb-4 text-body">
                                         <p className="lead fw-normal mb-0">Recent blogs</p>
-                                        <Link to={`/blog?author=${profile? profile.username : ''}`}>
+                                        <Link to={`/user/hyuhyu?tab=blogs`}>
                                             <p className="mb-0">Show all</p>
                                         </Link>
                                     </div>
