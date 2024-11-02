@@ -16,7 +16,8 @@ const blogSchema = new Schema({
     }, 
     tags: [String],
     comments: [String],
-    status: String, 
+    published: Boolean, 
+    deleted: Boolean,  
 }, {
     timestamps: true, 
 })
