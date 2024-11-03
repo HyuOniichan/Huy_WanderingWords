@@ -21,13 +21,16 @@ class blogController {
         blogData.create(req.body)
             .then(data => {
                 res.status(200).json(data)
-                return data; 
+                return data;
             })
             .then(createdBlog => {
                 if (req.body && req.body.author) {
-                    userData.findByIdAndUpdate(req.body.author, {$push: {blogs: createdBlog._id}})
+                    userData.findByIdAndUpdate(
+                        req.body.author, 
+                        { $push: { blogs: createdBlog._id } }
+                    )
                         .then(result => console.log(result))
-                        .catch(err => console.log(err))
+                        .catch(err => res.json(err))
                 }
             })
             .catch(err => res.json(err))
@@ -36,11 +39,17 @@ class blogController {
 
     // [DELETE] /blog/:id
     delete(req, res, next) {
+        userData.updateMany(
+            { blogs: req.params.id },
+            { $pull: { blogs: req.params.id } }
+        )
+            .then(data => console.log(data))
+            .catch(err => res.json(err))
         blogData.findByIdAndDelete(req.params.id)
             .then(data => res.status(200).json(data))
             .catch(err => res.json(err))
     }
-    
+
 }
 
 module.exports = new blogController(); 
