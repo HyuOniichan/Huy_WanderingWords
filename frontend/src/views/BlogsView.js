@@ -1,9 +1,9 @@
-import BlogList from "../components/blogComponents/BlogsComponents/BlogList";
+import { BlogList } from "../components/";
 
 function BlogsView() {
     return (
         <div>
-            <BlogList /> 
+            <BlogList />
         </div>
     )
 }
