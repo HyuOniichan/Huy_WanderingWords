@@ -1,8 +1,9 @@
 import { useState } from "react";
 import UserBlogsPreview from "./UserBlogsPreview";
 
-function UserBlogsCard({ profile }) {
+function UserBlogsCard({ profileState }) {
 
+    const [profile, setProfile] = profileState; 
     const blogs = profile ? profile.blogs : [];
     const [chosen, setChosen] = useState(-1); 
     const [showPreview, setShowPreview] = useState(null);
@@ -19,20 +20,24 @@ function UserBlogsCard({ profile }) {
                     <div className="card-body">
                         <h5 className="card-title mb-3">Blogs</h5>
                         <div className="list-group">
-                            {blogs.map((blog, index) => <button 
+                            {blogs ? blogs.map((blog, index) => <button 
                                 className={`list-group-item list-group-item-action ${(chosen === index)? 'active' : ''}`}
                                 key={index}
                                 onClick={() => chooseBlog(index)}
                             >
                                 {blog.title}
                             </button>
-                            )}
+                            ) : ''}
                         </div>
                     </div>
                 </div>
             </div>
 
-            {showPreview? <UserBlogsPreview blog={showPreview} setShowPreview={setShowPreview} /> : ''}
+            {showPreview? <UserBlogsPreview 
+                blog={showPreview} 
+                setShowPreview={setShowPreview} 
+                profileState={profileState} 
+            /> : ''}
 
         </section>
     )

@@ -7,7 +7,7 @@ function BlogCreateOption({ data }) {
 
     const [title, thumbnail, content] = data;
     const [tags, setTags] = useState('');
-    const [currentUser, setCurrentUser] = useContext(UserContext); 
+    const currentUser = useContext(UserContext); 
     const currentUserId = currentUser? currentUser[0]._id : ``;
 
     function saveDraft() {

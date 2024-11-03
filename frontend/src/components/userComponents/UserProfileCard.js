@@ -30,7 +30,7 @@ function UserProfileCard({ profile }) {
                             <div className="p-4 text-black bg-body-tertiary">
                                 <div className="d-flex justify-content-end text-center py-1 text-body">
                                     <div>
-                                        <p className="mb-1 h5">5</p>
+                                        <p className="mb-1 h5">{profile? profile.blogs.length : '---'}</p>
                                         <p className="small text-muted mb-0">Blogs</p>
                                     </div>
                                     <div className="px-3">
@@ -60,13 +60,13 @@ function UserProfileCard({ profile }) {
                                     </Link>
                                 </div>
                                 <div className="row g-2">
-                                    {(profile && profile.blogs[0]) ? <div className="col mb-2">
+                                    {(profile && profile.blogs) ? <div className="col mb-2">
                                         <Link to={'/blog/' + profile.blogs[0]._id}>
                                             <img src={profile.blogs[0].thumbnail} alt="thumnail"
                                                 className="w-100 rounded-3" />
                                         </Link>
                                     </div> : ``}
-                                    {(profile && profile.blogs[1]) ? <div className="col mb-2">
+                                    {(profile && profile.blogs) ? <div className="col mb-2">
                                         <Link to={'/blog/' + profile.blogs[1]._id}>
                                             <img src={profile.blogs[1].thumbnail} alt="thumnail"
                                                 className="w-100 rounded-3" />

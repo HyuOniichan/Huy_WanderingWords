@@ -23,7 +23,7 @@ function App() {
 	}, [currentUsername])
 
 	return (
-		<UserContext.Provider value={[currentUser, setCurrentUser]}>
+		<UserContext.Provider value={currentUser}>
 			<BrowserRouter>
 				<div className="App pt-4">
 					<Navbar />
