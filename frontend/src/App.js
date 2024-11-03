@@ -5,7 +5,7 @@ import HomeView from "./views/HomeView";
 import BlogsView from './views/BlogsView';
 import BlogDetailView from './views/BlogDetailView';
 import BlogCreateView from './views/BlogCreateView';
-import UserProfileView from './views/UserProfileView';
+import UserView from './views/UserView';
 
 function App() {
 	return (
@@ -18,7 +18,7 @@ function App() {
 						<Route path='/blog' element={<BlogsView />} />
 						<Route path='/blog/create' element={<BlogCreateView />} />
 						<Route path='/blog/:id' element={<BlogDetailView />} />
-						<Route path='/user/:username' element={<UserProfileView />} />
+						<Route path='/user/:username' element={<UserView />} />
 					</Routes>
 				</div>
 			</div>
