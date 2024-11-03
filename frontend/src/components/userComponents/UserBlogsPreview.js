@@ -24,6 +24,8 @@ function UserBlogsPreview({ blog, setShowPreview, profileState }) {
 
     }
 
+    console.log(profile)
+
     return (
         <div className="col-6">
             <div className="card position-relative">
@@ -32,7 +34,7 @@ function UserBlogsPreview({ blog, setShowPreview, profileState }) {
                     <h5 className="card-title">{blog ? blog.title : 'Title...'}</h5>
                     {/* <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
                     <div className="mt-3 mx-2 d-flex justify-content-between gap-2">
-                        <Link to={blog ? `/blog/${blog._id}` : '#blogs'} className="btn btn-primary w-100">
+                        <Link to={blog ? `/blog/${blog._id}/${isMe? 'edit' : ''}` : '#blogs'} className="btn btn-primary w-100">
                             {isMe? 'Edit' : 'Explore'}
                         </Link>
                         {isMe? <button className="btn btn-danger w-100" onClick={() => handleDelete(blog._id)}>
