@@ -33,6 +33,14 @@ class blogController {
             .catch(err => res.json(err))
 
     }
+
+    // [DELETE] /blog/:id
+    delete(req, res, next) {
+        blogData.findByIdAndDelete(req.params.id)
+            .then(data => res.status(200).json(data))
+            .catch(err => res.json(err))
+    }
+    
 }
 
 module.exports = new blogController(); 

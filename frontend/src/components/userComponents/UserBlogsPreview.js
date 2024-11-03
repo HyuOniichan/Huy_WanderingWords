@@ -2,14 +2,26 @@ import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../App";
 
-function UserBlogsPreview({ blog, setShowPreview }) {
+function UserBlogsPreview({ blog, setShowPreview, profileState }) {
 
+    const [profile, setProfile] = profileState;
     const { username } = useParams();
     const currentUser = useContext(UserContext);
     const isMe = (currentUser[0].username === username); 
 
-    function deleteBlog(blogId) {
-        console.log(`${blogId} deleted`)
+    function handleDelete(blogId) {
+        setProfile(prev => ({
+            ...prev, 
+            blogs: prev.blogs.filter(blog => blog._id !== blogId)
+        }))
+        setShowPreview(null)
+
+        fetch(`http://localhost:8000/v1/blog/${blogId}`, {
+            method: 'DELETE'
+        })
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
+
     }
 
     return (
@@ -23,7 +35,7 @@ function UserBlogsPreview({ blog, setShowPreview }) {
                         <Link to={blog ? `/blog/${blog._id}` : '#blogs'} className="btn btn-primary w-100">
                             {isMe? 'Edit' : 'Explore'}
                         </Link>
-                        {isMe? <button className="btn btn-danger w-100" onClick={() => deleteBlog(blog._id)}>
+                        {isMe? <button className="btn btn-danger w-100" onClick={() => handleDelete(blog._id)}>
                             Delete
                         </button> : ``}
                     </div>
