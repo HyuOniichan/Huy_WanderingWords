@@ -30,7 +30,7 @@ function UserProfileCard({ profile }) {
                             <div className="p-4 text-black bg-body-tertiary">
                                 <div className="d-flex justify-content-end text-center py-1 text-body">
                                     <div>
-                                        <p className="mb-1 h5">5</p>
+                                        <p className="mb-1 h5">{profile? profile.blogs.length : '---'}</p>
                                         <p className="small text-muted mb-0">Blogs</p>
                                     </div>
                                     <div className="px-3">
