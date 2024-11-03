@@ -6,6 +6,7 @@ import HomeView from "./views/HomeView";
 import BlogsView from './views/BlogsView';
 import BlogDetailView from './views/BlogDetailView';
 import BlogCreateView from './views/BlogCreateView';
+import BlogEditView from './views/BlogEditView'; 
 import UserView from './views/UserView';
 
 export const UserContext = createContext(); 
@@ -30,9 +31,10 @@ function App() {
 					<div className="container mt-5">
 						<Routes>
 							<Route path='/' element={<HomeView />} />
-							<Route path='/blog' element={<BlogsView />} />
 							<Route path='/blog/create' element={<BlogCreateView />} />
+							<Route path='/blog/:id/edit' element={<BlogEditView />} />
 							<Route path='/blog/:id' element={<BlogDetailView />} />
+							<Route path='/blog' element={<BlogsView />} />
 							<Route path='/user/:username' element={<UserView />} />
 						</Routes>
 					</div>
