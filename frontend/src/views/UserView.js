@@ -11,7 +11,7 @@ function UserView() {
     useEffect(() => {
         fetch(`http://localhost:8000/v1/user/${username}`)
             .then(res => res.json())
-            .then(data => { setProfile(data[0]) })
+            .then(data => setProfile(data[0]))
             .catch(err => console.log(err))
     }, [username])
 

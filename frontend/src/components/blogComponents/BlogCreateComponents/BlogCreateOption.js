@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { UserContext } from "../../../App";
 
 function BlogCreateOption({ data }) {
 
     const [title, thumbnail, content] = data;
     const [tags, setTags] = useState('');
-
-    const currentUserId = '67220acc07a7a2d4ef000f15';
+    const [currentUser, setCurrentUser] = useContext(UserContext); 
+    const currentUserId = currentUser[0]._id;
 
     function saveDraft() {
         const arrTags = tags.trim().split(',').map(tag => tag.trim()).filter(e => e);
