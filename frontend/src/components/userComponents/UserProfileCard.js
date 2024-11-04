@@ -55,9 +55,9 @@ function UserProfileCard({ profile }) {
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center mb-4 text-body">
                                     <p className="lead fw-normal mb-0">Recent blogs</p>
-                                    <Link to={`/user/hyuhyu?tab=blogs`}>
+                                    <a href='#blogs'>
                                         <p className="mb-0">Show all</p>
-                                    </Link>
+                                    </a>
                                 </div>
                                 <div className="row g-2">
                                     {(profile && profile.blogs) ? <div className="col mb-2">

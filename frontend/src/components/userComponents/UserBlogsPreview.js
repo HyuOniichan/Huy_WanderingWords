@@ -22,11 +22,12 @@ function UserBlogsPreview({ blog, setShowPreview, profileState }) {
         })
             .then(data => {
                 console.log(data);
+                if (data.errors) throw new Error(data.message || 'An error occured') 
                 handleToast('check', 'succeed', 'Deleted');
             })
             .catch(err => {
                 console.log(err);
-                handleToast('error', 'failed', 'Fail to delete'); 
+                handleToast('error', 'failed', `${err}`); 
             })
 
     }

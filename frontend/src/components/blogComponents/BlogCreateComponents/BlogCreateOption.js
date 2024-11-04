@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { UserContext, ToastContext } from "../../../App";
 
 function BlogCreateOption({ data }) {
 
+    const pageNavigate = useNavigate(); 
     const [title, thumbnail, content] = data;
     const [tags, setTags] = useState('');
     const currentUser = useContext(UserContext); 
@@ -31,13 +32,16 @@ function BlogCreateOption({ data }) {
             body: JSON.stringify(newBlog),
             headers: { "Content-Type": "application/json" },
         })
+            .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
+                if (data.errors) throw new Error(data.message || 'An error occured')
+                if (data._id) pageNavigate(`/blog/${data._id}`)
                 handleToast('check', 'succeed', `Your blog created`); 
             })
             .catch(err => {
-                console.log(err); 
-                handleToast('error', 'failed', `Save blog failed`); 
+                // console.log(err); 
+                handleToast('error', 'failed', `${err}`); 
             })
     }
 
