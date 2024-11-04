@@ -41,7 +41,7 @@ function App() {
 				const cur = prev.filter(e => e.id !== toastId); 
 				return cur;
 			})
-		}, 3000)
+		}, 5000)
 	}
 
 	if (toast.length === 3) handleToast('warn', 'warning', 'Please slow down');
