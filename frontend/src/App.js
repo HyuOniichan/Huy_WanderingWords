@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { Navbar, Toast } from './components';
+import { Navbar, Footer, Toast } from './components';
 import HomeView from "./views/HomeView";
 import BlogsView from './views/BlogsView';
 import BlogDetailView from './views/BlogDetailView';
@@ -62,6 +62,7 @@ function App() {
 								<Route path='/user/:username' element={<UserView />} />
 							</Routes>
 						</div>
+						<Footer /> 
 						<Toast toastList={toast} />
 					</div>
 				</BrowserRouter>

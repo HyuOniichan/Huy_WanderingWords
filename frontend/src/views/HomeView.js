@@ -1,17 +1,13 @@
+import { HomeSectionHero, HomeSectionPopular, HomeSectionStat } from "../components";
+
 function HomeView() {
 
     return (
-        <>
-
-            <h1>
-                Wandering Words
-            </h1>
-
-            <h2>
-                Where words roam free
-            </h2>
-
-        </>
+        <main>
+            <HomeSectionHero />
+            <HomeSectionPopular /> 
+            <HomeSectionStat /> 
+        </main>
     )
 }
 
