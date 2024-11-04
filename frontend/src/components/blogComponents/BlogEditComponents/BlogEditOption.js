@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { ToastContext, UserContext } from "../../../App";
 
 function BlogEditOption({ data }) {
 
-    const [title, thumbnail, content, [tags, setTags], blogId] = data;
+    const pageNavigate = useNavigate();
+    const [old, title, thumbnail, content, [tags, setTags], blogId] = data;
     const currentUser = useContext(UserContext);
     const currentUserId = currentUser ? currentUser[0]._id : ``;
     const currentUsername = currentUser ? currentUser[0].username : ``;
@@ -31,13 +32,34 @@ function BlogEditOption({ data }) {
             body: JSON.stringify(newBlog),
             headers: { "Content-Type": "application/json" },
         })
+            .then(res => res.json())
             .then(data => {
                 console.log(data);
+                if (data.errors) throw new Error(data.message || 'An error occured')
                 handleToast('check', 'succeed', 'Blog saved');
             })
             .catch(err => {
-                console.log(err); 
-                handleToast('error', 'failed', 'Save failed'); 
+                console.log(err);
+                handleToast('error', 'failed', `${err}`);
+            })
+    }
+
+    function handleDeleteChanges() {
+        fetch(`http://localhost:8000/v1/blog/${blogId}`, {
+            method: 'PUT',
+            body: JSON.stringify(old),
+            headers: { "Content-Type": "application/json" },
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.errors) throw new Error(data.message || 'An error occured');
+                pageNavigate(`/user/${currentUsername}`);
+                handleToast('check', 'succeed', 'Nothing changed');
+            })
+            .catch(err => {
+                console.log(err);
+                handleToast('error', 'failed', `${err}`);
             })
     }
 
@@ -57,9 +79,11 @@ function BlogEditOption({ data }) {
                 </div>
                 <hr />
                 <div className="d-flex flex-column gap-1">
-                    <Link to={`/user/${currentUsername}`}>
-                        <button type="button" className="btn btn-danger w-100 text-center">Delete changes</button>
-                    </Link>
+                    <button 
+                        type="button" 
+                        className="btn btn-danger w-100 text-center"
+                        onClick={() => handleDeleteChanges()}
+                    >Delete changes</button>
                     <button
                         type="button"
                         className="btn btn-primary"
