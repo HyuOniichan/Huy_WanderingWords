@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Navbar from "./components/baseComponents/Navbar";
+import { Navbar, Toast } from './components';
 import HomeView from "./views/HomeView";
 import BlogsView from './views/BlogsView';
 import BlogDetailView from './views/BlogDetailView';
@@ -10,11 +10,13 @@ import BlogEditView from './views/BlogEditView';
 import UserView from './views/UserView';
 
 export const UserContext = createContext(); 
+export const ToastContext = createContext(); 
 
 function App() {
 
 	const [currentUser, setCurrentUser] = useState(); 
 	const currentUsername = 'hyuhyu'; 
+	const [toast, setToast] = useState([])
 
 	useEffect(() => {
 		fetch(`http://localhost:8000/v1/user/${currentUsername}`) 
@@ -23,23 +25,47 @@ function App() {
 			.catch(err => console.log(err))
 	}, [currentUsername])
 
+	function handleToast(type = 'warn', header = '?', msg = '???') {
+		const toastId = Date.now(); 
+		setToast(prev => [
+			...prev, 
+			{
+				id: toastId, 
+				type, 
+				header, 
+				msg, 
+			}
+		])
+		setTimeout(() => {
+			setToast(prev => {
+				const cur = prev.filter(e => e.id !== toastId); 
+				return cur;
+			})
+		}, 3000)
+	}
+
+	if (toast.length === 3) handleToast('warn', 'warning', 'Please slow down');
+
 	return (
 		<UserContext.Provider value={currentUser}>
-			<BrowserRouter>
-				<div className="App pt-4">
-					<Navbar />
-					<div className="container mt-5">
-						<Routes>
-							<Route path='/' element={<HomeView />} />
-							<Route path='/blog/create' element={<BlogCreateView />} />
-							<Route path='/blog/:id/edit' element={<BlogEditView />} />
-							<Route path='/blog/:id' element={<BlogDetailView />} />
-							<Route path='/blog' element={<BlogsView />} />
-							<Route path='/user/:username' element={<UserView />} />
-						</Routes>
+			<ToastContext.Provider value={handleToast}>
+				<BrowserRouter>
+					<div className="App pt-4">
+						<Navbar />
+						<div className="container mt-5">
+							<Routes>
+								<Route path='/' element={<HomeView />} />
+								<Route path='/blog/create' element={<BlogCreateView />} />
+								<Route path='/blog/:id/edit' element={<BlogEditView />} />
+								<Route path='/blog/:id' element={<BlogDetailView />} />
+								<Route path='/blog' element={<BlogsView />} />
+								<Route path='/user/:username' element={<UserView />} />
+							</Routes>
+						</div>
+						<Toast toastList={toast} />
 					</div>
-				</div>
-			</BrowserRouter>
+				</BrowserRouter>
+			</ToastContext.Provider>
 		</UserContext.Provider>
 	)
 }

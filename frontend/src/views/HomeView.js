@@ -1,13 +1,14 @@
 function HomeView() {
+
     return (
         <>
 
             <h1>
-                Wandering Words 
+                Wandering Words
             </h1>
 
             <h2>
-                Where words roam free 
+                Where words roam free
             </h2>
 
         </>
