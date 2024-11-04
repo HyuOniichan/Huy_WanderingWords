@@ -1,17 +1,18 @@
 import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { UserContext } from "../../App";
+import { ToastContext, UserContext } from "../../App";
 
 function UserBlogsPreview({ blog, setShowPreview, profileState }) {
 
     const [profile, setProfile] = profileState;
     const { username } = useParams();
     const currentUser = useContext(UserContext);
-    const isMe = (currentUser[0].username === username); 
+    const isMe = (currentUser[0].username === username);
+    const handleToast = useContext(ToastContext);
 
     function handleDelete(blogId) {
         setProfile(prev => ({
-            ...prev, 
+            ...prev,
             blogs: prev.blogs.filter(blog => blog._id !== blogId)
         }))
         setShowPreview(null)
@@ -19,8 +20,14 @@ function UserBlogsPreview({ blog, setShowPreview, profileState }) {
         fetch(`http://localhost:8000/v1/blog/${blogId}`, {
             method: 'DELETE'
         })
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
+            .then(data => {
+                console.log(data);
+                handleToast('check', 'succeed', 'Deleted');
+            })
+            .catch(err => {
+                console.log(err);
+                handleToast('error', 'failed', 'Fail to delete'); 
+            })
 
     }
 
@@ -34,10 +41,10 @@ function UserBlogsPreview({ blog, setShowPreview, profileState }) {
                     <h5 className="card-title">{blog ? blog.title : 'Title...'}</h5>
                     {/* <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> */}
                     <div className="mt-3 mx-2 d-flex justify-content-between gap-2">
-                        <Link to={blog ? `/blog/${blog._id}/${isMe? 'edit' : ''}` : '#blogs'} className="btn btn-primary w-100">
-                            {isMe? 'Edit' : 'Explore'}
+                        <Link to={blog ? `/blog/${blog._id}/${isMe ? 'edit' : ''}` : '#blogs'} className="btn btn-primary w-100">
+                            {isMe ? 'Edit' : 'Explore'}
                         </Link>
-                        {isMe? <button className="btn btn-danger w-100" onClick={() => handleDelete(blog._id)}>
+                        {isMe ? <button className="btn btn-danger w-100" onClick={() => handleDelete(blog._id)}>
                             Delete
                         </button> : ``}
                     </div>

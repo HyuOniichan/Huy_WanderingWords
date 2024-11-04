@@ -1,6 +1,7 @@
 // base components 
-import BackBtn from './baseComponents/BackBtn'
 import Navbar from './baseComponents/Navbar'
+import BackBtn from './baseComponents/BackBtn'
+import Toast from './baseComponents/Toast'
 
 // Home components
 
@@ -22,7 +23,7 @@ import UserProfileCard from './userComponents/UserProfileCard'
 
 // Export 
 export {
-    Navbar, BackBtn,
+    Navbar, BackBtn, Toast, 
     BlogCard, BlogList,
     BlogCreateEdit, BlogCreateOption,
     BlogDetailPost, BlogDetailRelated,

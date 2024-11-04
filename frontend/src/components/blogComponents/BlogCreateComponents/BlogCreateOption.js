@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { UserContext } from "../../../App";
+import { UserContext, ToastContext } from "../../../App";
 
 function BlogCreateOption({ data }) {
 
@@ -9,6 +9,7 @@ function BlogCreateOption({ data }) {
     const [tags, setTags] = useState('');
     const currentUser = useContext(UserContext); 
     const currentUserId = currentUser? currentUser[0]._id : ``;
+    const handleToast = useContext(ToastContext); 
 
     function saveDraft() {
         const arrTags = tags.trim().split(',').map(tag => tag.trim()).filter(e => e);
@@ -30,8 +31,14 @@ function BlogCreateOption({ data }) {
             body: JSON.stringify(newBlog),
             headers: { "Content-Type": "application/json" },
         })
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
+            .then(data => {
+                console.log(data);
+                handleToast('check', 'succeed', `Your blog created`); 
+            })
+            .catch(err => {
+                console.log(err); 
+                handleToast('error', 'failed', `Save blog failed`); 
+            })
     }
 
     return (

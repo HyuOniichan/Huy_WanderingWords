@@ -1,18 +1,19 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { UserContext } from "../../../App";
+import { ToastContext, UserContext } from "../../../App";
 
 function BlogEditOption({ data }) {
 
     const [title, thumbnail, content, [tags, setTags], blogId] = data;
-    const currentUser = useContext(UserContext); 
-    const currentUserId = currentUser? currentUser[0]._id : ``;
-    const currentUsername = currentUser? currentUser[0].username : ``; 
+    const currentUser = useContext(UserContext);
+    const currentUserId = currentUser ? currentUser[0]._id : ``;
+    const currentUsername = currentUser ? currentUser[0].username : ``;
+    const handleToast = useContext(ToastContext);
 
     function handleUpdate() {
         const arrTags = tags.trim().split(',').map(tag => tag.trim()).filter(e => e);
-        const arrContent = content.filter(e => e.heading); 
+        const arrContent = content.filter(e => e.heading);
 
         const newBlog = {
             title: title,
@@ -21,7 +22,7 @@ function BlogEditOption({ data }) {
             author: currentUserId,
             tags: arrTags,
             comments: [],
-            published: false, 
+            published: false,
             deleted: false
         }
 
@@ -30,8 +31,14 @@ function BlogEditOption({ data }) {
             body: JSON.stringify(newBlog),
             headers: { "Content-Type": "application/json" },
         })
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
+            .then(data => {
+                console.log(data);
+                handleToast('check', 'succeed', 'Blog saved');
+            })
+            .catch(err => {
+                console.log(err); 
+                handleToast('error', 'failed', 'Save failed'); 
+            })
     }
 
     return (
