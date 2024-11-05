@@ -2,20 +2,11 @@ require('dotenv').config();
 const express = require('express'); 
 const mongoose = require('mongoose');
 const cors = require('cors'); 
-const path = require('path');
 
 const route = require('./routes/index'); 
 
 // instance 
 const app = express(); 
-
-// Serve React static files 
-app.use(express.static(path.join(__dirname, 'frontend/build')));
-
-// Handle React routing
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
-});
 
 // middleware 
 app.use(express.json())
