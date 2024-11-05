@@ -7,6 +7,7 @@ import BlogsView from './views/BlogsView';
 import BlogDetailView from './views/BlogDetailView';
 import BlogCreateView from './views/BlogCreateView';
 import BlogEditView from './views/BlogEditView'; 
+import BlogTrashView from './views/BlogTrashView'; 
 import UserView from './views/UserView';
 
 export const UserContext = createContext(); 
@@ -56,6 +57,7 @@ function App() {
 							<Routes>
 								<Route path='/' element={<HomeView />} />
 								<Route path='/blog/create' element={<BlogCreateView />} />
+								<Route path='/blog/trash' element={<BlogTrashView />} />
 								<Route path='/blog/:id/edit' element={<BlogEditView />} />
 								<Route path='/blog/:id' element={<BlogDetailView />} />
 								<Route path='/blog' element={<BlogsView />} />

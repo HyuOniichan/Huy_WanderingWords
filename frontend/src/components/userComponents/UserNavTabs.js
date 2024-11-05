@@ -3,7 +3,7 @@ import BackBtn from "../baseComponents/BackBtn";
 function UserNavTabs() {
     return (
         <div className="pt-5" style={{ position: 'fixed', top: 80, left: 70, zIndex: 3 }}>
-            <BackBtn path={''} /> 
+            <BackBtn /> 
             <nav id="userTabs" className="h-100 flex-column align-items-stretch pe-5 border-end">
                 <nav className="nav nav-pills flex-column">
                     <a className="nav-link" href="#profile">Profile</a>

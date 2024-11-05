@@ -4,7 +4,7 @@ const userData = require('../models/userModel');
 class blogController {
     // [GET] /blog
     show(req, res, next) {
-        blogData.find({}).populate('author')
+        blogData.find({ deleted: false }).populate('author')
             .then(data => res.status(200).json(data))
             .catch(err => res.json(err))
     }
@@ -15,6 +15,13 @@ class blogController {
             .then(data => res.status(200).json(data))
             .catch(err => res.json(err))
     }
+
+    // [GET] /blog/deleted
+    showDeleted(req, res, next) {
+        blogData.find({ deleted: true }).populate('author')
+            .then(data => res.status(200).json(data))
+            .catch(err => res.json(err))
+    } 
 
     // [POST] /blog
     create(req, res, next) {
