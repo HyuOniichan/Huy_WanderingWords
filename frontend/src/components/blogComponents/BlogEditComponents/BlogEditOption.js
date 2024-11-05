@@ -23,8 +23,8 @@ function BlogEditOption({ data }) {
             author: currentUserId,
             tags: arrTags,
             comments: [],
-            published: false,
-            deleted: false
+            published: old.published,
+            deleted: old.deleted
         }
 
         fetch(`http://localhost:8000/v1/blog/${blogId}`, {

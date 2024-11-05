@@ -10,7 +10,7 @@ function BlogEditView() {
     const [title, setTitle] = useState('');
     const [thumbnail, setThumbnail] = useState('');
     const [content, setContent] = useState([{ heading: '', text: '' }]);
-    const [tags, setTags] = useState('')
+    const [tags, setTags] = useState('');
 
     useEffect(() => {
         fetch(`http://localhost:8000/v1/blog/${id}`)
@@ -20,7 +20,7 @@ function BlogEditView() {
                 setTitle(data.title);
                 setThumbnail(data.thumbnail);
                 setContent(data.content);
-                setTags(data.tags.join(', '))
+                setTags(data.tags.join(', ')); 
             })
             .catch(err => {
                 console.log(err); 

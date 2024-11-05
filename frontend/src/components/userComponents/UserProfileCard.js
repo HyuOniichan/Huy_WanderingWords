@@ -24,13 +24,13 @@ function UserProfileCard({ profile }) {
                                 </div>
                                 <div className="ms-3" style={{ marginTop: 130 }}>
                                     <h5>{(profile && profile.name) ? profile.name : 'Anonymous'}</h5>
-                                    <p>Debug King</p>
+                                    <p>{(profile && profile.email) ? profile.email : 'user@mail'}</p>
                                 </div>
                             </div>
                             <div className="p-4 text-black bg-body-tertiary">
                                 <div className="d-flex justify-content-end text-center py-1 text-body">
                                     <div>
-                                        <p className="mb-1 h5">{profile? profile.blogs.length : '---'}</p>
+                                        <p className="mb-1 h5">{profile ? profile.blogs.length : '---'}</p>
                                         <p className="small text-muted mb-0">Blogs</p>
                                     </div>
                                     <div className="px-3">

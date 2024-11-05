@@ -17,13 +17,19 @@ function UserBlogsPreview({ blog, setShowPreview, profileState }) {
         }))
         setShowPreview(null)
 
+        const deletedIndex = profile.blogs.findIndex(e => e._id === blogId); 
+        const deletedBlog = profile.blogs[deletedIndex]; 
+        deletedBlog.deleted = true; 
+
         fetch(`http://localhost:8000/v1/blog/${blogId}`, {
-            method: 'DELETE'
+            method: 'PUT',
+            body: JSON.stringify(deletedBlog), 
+            headers: { "Content-Type": "application/json" },
         })
             .then(data => {
                 console.log(data);
                 if (data.errors) throw new Error(data.message || 'An error occured') 
-                handleToast('check', 'succeed', 'Deleted');
+                handleToast('check', 'succeed', 'Moved to trash');
             })
             .catch(err => {
                 console.log(err);
