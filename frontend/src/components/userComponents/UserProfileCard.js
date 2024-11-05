@@ -60,13 +60,13 @@ function UserProfileCard({ profile }) {
                                     </a>
                                 </div>
                                 <div className="row g-2">
-                                    {(profile && profile.blogs) ? <div className="col mb-2">
+                                    {(profile && profile.blogs && profile.blogs[0]) ? <div className="col mb-2">
                                         <Link to={'/blog/' + profile.blogs[0]._id}>
                                             <img src={profile.blogs[0].thumbnail} alt="thumnail"
                                                 className="w-100 rounded-3" />
                                         </Link>
                                     </div> : ``}
-                                    {(profile && profile.blogs) ? <div className="col mb-2">
+                                    {(profile && profile.blogs && profile.blogs[1]) ? <div className="col mb-2">
                                         <Link to={'/blog/' + profile.blogs[1]._id}>
                                             <img src={profile.blogs[1].thumbnail} alt="thumnail"
                                                 className="w-100 rounded-3" />

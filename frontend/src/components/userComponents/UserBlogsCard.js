@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Link, useParams } from "react-router-dom";
 import UserBlogsPreview from "./UserBlogsPreview";
-import { Link } from "react-router-dom";
+import { UserContext } from "../../App";
 
 function UserBlogsCard({ profileState }) {
 
+    const { username } = useParams();
+    const currentUser = useContext(UserContext);
+    const isMe = (currentUser && currentUser[0].username === username);
     const [profile, setProfile] = profileState;
     const blogs = profile ? profile.blogs.filter(blog => !blog.deleted) : [];
     const [chosen, setChosen] = useState(-1);
@@ -21,19 +25,19 @@ function UserBlogsCard({ profileState }) {
                     <div className="card-body">
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <h5 className="card-title m-0 fs-4">Blogs</h5>
-                            <Link to='/blog/trash'>
+                            {isMe? <Link to='/blog/trash'>
                                 <button className="btn btn-danger">Trash</button>
-                            </Link>
+                            </Link> : ``}
                         </div>
                         <div className="list-group">
-                            {blogs ? blogs.map((blog, index) => <button
+                            {(blogs && blogs.length) ? blogs.map((blog, index) => <button
                                 className={`list-group-item list-group-item-action ${(chosen === index) ? 'active' : ''}`}
                                 key={index}
                                 onClick={() => chooseBlog(index)}
                             >
                                 {blog.title}
                             </button>
-                            ) : ''}
+                            ) : `${profile? profile.name : 'This user'} haven't posted anything`}
                         </div>
                     </div>
                 </div>
