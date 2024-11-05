@@ -27,7 +27,7 @@ function App() {
 			.then(res => res.json())
 			.then(data => setCurrentUser(data))
 			.catch(err => console.log(err))
-	}, [currentUsername])
+	}, [currentUsername, backendLink])
 
 	function handleToast(type = 'warn', header = '?', msg = '???') {
 		const toastId = Date.now(); 
@@ -51,7 +51,7 @@ function App() {
 	if (toast.length === 3) handleToast('warn', 'warning', 'Please slow down');
 
 	return (
-		<BackendContext value={backendLink}>
+		<BackendContext.Provider value={backendLink}>
 			<UserContext.Provider value={currentUser}>
 				<ToastContext.Provider value={handleToast}>
 					<BrowserRouter>
@@ -74,7 +74,7 @@ function App() {
 					</BrowserRouter>
 				</ToastContext.Provider>
 			</UserContext.Provider>
-		</BackendContext>
+		</BackendContext.Provider>
 	)
 }
 

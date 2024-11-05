@@ -15,7 +15,7 @@ function BlogList() {
             .then(res => res.json())
             .then(data => setBlogs(data))
             .catch(err => console.log(err))
-    }, [])
+    }, [backendLink])
 
     return (
         <div>

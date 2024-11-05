@@ -14,7 +14,7 @@ function BlogDetailPost() {
             .then(res => res.json())
             .then(data => setBlog(data))
             .catch(err => console.log(err))
-    }, [id])
+    }, [id, backendLink])
 
     console.log(blog);
 

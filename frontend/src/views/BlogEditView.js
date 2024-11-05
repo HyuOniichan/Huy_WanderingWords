@@ -2,11 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import { BackBtn, BlogEditField, BlogEditOption } from "../components";
-import { BackendContext, ToastContext, UserContext } from "../App";
+import { BackendContext } from "../App";
 
 function BlogEditView() {
 
-    const backendLink = useContext(BackendContext); 
+    const backendLink = useContext(BackendContext);
 
     const { id } = useParams();
     const [old, setOld] = useState();
@@ -14,10 +14,6 @@ function BlogEditView() {
     const [thumbnail, setThumbnail] = useState('');
     const [content, setContent] = useState([{ heading: '', text: '' }]);
     const [tags, setTags] = useState('');
-    const [isMe, setIsMe] = useState(false);
-    const currentUser = useContext(UserContext);
-    const currentUsername = currentUser? currentUser[0].username : ``; 
-    const handleToast = useContext(ToastContext);
 
     useEffect(() => {
         fetch(`${backendLink}/blog/${id}`)
@@ -28,24 +24,16 @@ function BlogEditView() {
                 setThumbnail(data.thumbnail);
                 setContent(data.content);
                 setTags(data.tags.join(', '));
-                if (data.author.username === currentUsername) setIsMe(true);
-                    else throw new Error(data.message || 'An error occured')
             })
             .catch(err => {
-                handleToast('error', 'failed to access blog data', `${err}`);
+                console.log(err);
             })
-    }, [id])
-
-    // if (!isMe) 
+    }, [id, backendLink])
 
     return (
         <div className="row position-relative pt-5">
-            {
-                isMe? <>
-                    <BlogEditField data={[[title, setTitle], [thumbnail, setThumbnail], [content, setContent]]} />
-                    <BlogEditOption data={[old, title, thumbnail, content, [tags, setTags], id]} />
-                </> : `An error occured`
-            }
+            <BlogEditField data={[[title, setTitle], [thumbnail, setThumbnail], [content, setContent]]} />
+            <BlogEditOption data={[old, title, thumbnail, content, [tags, setTags], id]} />
             <BackBtn />
         </div>
     )
