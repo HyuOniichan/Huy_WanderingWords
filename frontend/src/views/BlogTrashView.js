@@ -1,9 +1,10 @@
-import { BlogTrashList } from "../components";
+import { BackBtn, BlogTrashList } from "../components";
 
 function BlogTrashView() {
         return (
-            <div>
+            <div className="position-relative pt-4">
                 <BlogTrashList /> 
+                <BackBtn />
             </div>
         )
     }

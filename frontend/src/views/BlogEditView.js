@@ -31,7 +31,7 @@ function BlogEditView() {
         <div className="row position-relative pt-5">
             <BlogEditField data={[[title, setTitle], [thumbnail, setThumbnail], [content, setContent]]} />
             <BlogEditOption data={[old, title, thumbnail, content, [tags, setTags], id]} />
-            <BackBtn path={'blog'} />
+            <BackBtn />
         </div>
     )
 }
