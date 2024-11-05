@@ -10,17 +10,20 @@ import BlogEditView from './views/BlogEditView';
 import BlogTrashView from './views/BlogTrashView'; 
 import UserView from './views/UserView';
 
+export const BackendContext = createContext(); 
 export const UserContext = createContext(); 
 export const ToastContext = createContext(); 
 
 function App() {
+
+	const backendLink = `https://wanderingwords-server.onrender.com/v1`; 
 
 	const [currentUser, setCurrentUser] = useState(); 
 	const currentUsername = 'hyuhyu'; 
 	const [toast, setToast] = useState([])
 
 	useEffect(() => {
-		fetch(`http://localhost:8000/v1/user/${currentUsername}`) 
+		fetch(`${backendLink}/user/${currentUsername}`) 
 			.then(res => res.json())
 			.then(data => setCurrentUser(data))
 			.catch(err => console.log(err))
@@ -48,28 +51,30 @@ function App() {
 	if (toast.length === 3) handleToast('warn', 'warning', 'Please slow down');
 
 	return (
-		<UserContext.Provider value={currentUser}>
-			<ToastContext.Provider value={handleToast}>
-				<BrowserRouter>
-					<div className="App pt-4">
-						<Navbar />
-						<div className="container mt-5">
-							<Routes>
-								<Route path='/' element={<HomeView />} />
-								<Route path='/blog/create' element={<BlogCreateView />} />
-								<Route path='/blog/trash' element={<BlogTrashView />} />
-								<Route path='/blog/:id/edit' element={<BlogEditView />} />
-								<Route path='/blog/:id' element={<BlogDetailView />} />
-								<Route path='/blog' element={<BlogsView />} />
-								<Route path='/user/:username' element={<UserView />} />
-							</Routes>
+		<BackendContext value={backendLink}>
+			<UserContext.Provider value={currentUser}>
+				<ToastContext.Provider value={handleToast}>
+					<BrowserRouter>
+						<div className="App pt-4">
+							<Navbar />
+							<div className="container mt-5">
+								<Routes>
+									<Route path='/' element={<HomeView />} />
+									<Route path='/blog/create' element={<BlogCreateView />} />
+									<Route path='/blog/trash' element={<BlogTrashView />} />
+									<Route path='/blog/:id/edit' element={<BlogEditView />} />
+									<Route path='/blog/:id' element={<BlogDetailView />} />
+									<Route path='/blog' element={<BlogsView />} />
+									<Route path='/user/:username' element={<UserView />} />
+								</Routes>
+							</div>
+							<Footer />
+							<Toast toastList={toast} />
 						</div>
-						<Footer /> 
-						<Toast toastList={toast} />
-					</div>
-				</BrowserRouter>
-			</ToastContext.Provider>
-		</UserContext.Provider>
+					</BrowserRouter>
+				</ToastContext.Provider>
+			</UserContext.Provider>
+		</BackendContext>
 	)
 }
 

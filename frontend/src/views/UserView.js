@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { UserProfileCard, UserNavTabs, UserBlogsCard } from "../components/";
+import { BackendContext } from "../App";
 
 function UserView() {
+
+    const backendLink = useContext(BackendContext); 
 
     const [profile, setProfile] = useState();
     const { username } = useParams();
 
     useEffect(() => {
-        fetch(`http://localhost:8000/v1/user/${username}`)
+        fetch(`${backendLink}/user/${username}`)
             .then(res => res.json())
             .then(data => setProfile(data[0]))
             .catch(err => console.log(err))

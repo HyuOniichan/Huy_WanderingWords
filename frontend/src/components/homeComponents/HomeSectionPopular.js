@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { BackendContext } from "../../App";
 
 const HomeSectionPopular = () => {
+
+    const backendLink = useContext(BackendContext); 
+
     const [blogs, setBlogs] = useState();
 
     useEffect(() => {
-        fetch(`http://localhost:8000/v1/blog`)
+        fetch(`${backendLink}/blog`)
             .then(res => res.json())
             .then(data => setBlogs(data))
             .catch(err => console.log(err))

@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import BlogCard from "./BlogCard";
 import WaitingPage from "../../baseComponents/WaitingPage";
+import { BackendContext } from "../../../App";
 
 function BlogList() {
+
+    const backendLink = useContext(BackendContext); 
 
     const [blogs, setBlogs] = useState();
     
     useEffect(() => {
-        fetch(`http://localhost:8000/v1/blog`)
+        fetch(`${backendLink}/blog`)
             .then(res => res.json())
             .then(data => setBlogs(data))
             .catch(err => console.log(err))

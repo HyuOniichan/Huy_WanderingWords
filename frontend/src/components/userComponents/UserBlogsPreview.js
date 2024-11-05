@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ToastContext, UserContext } from "../../App";
+import { BackendContext, ToastContext, UserContext } from "../../App";
 
 function UserBlogsPreview({ blog, setShowPreview, profileState }) {
+
+    const backendLink = useContext(BackendContext);
 
     const [profile, setProfile] = profileState;
     const { username } = useParams();
@@ -21,7 +23,7 @@ function UserBlogsPreview({ blog, setShowPreview, profileState }) {
         const deletedBlog = profile.blogs[deletedIndex]; 
         deletedBlog.deleted = true; 
 
-        fetch(`http://localhost:8000/v1/blog/${blogId}`, {
+        fetch(`${backendLink}/blog/${blogId}`, {
             method: 'PUT',
             body: JSON.stringify(deletedBlog), 
             headers: { "Content-Type": "application/json" },

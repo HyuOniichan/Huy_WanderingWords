@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BlogTrashCard from "./BlogTrashCard";
+import { BackendContext } from "../../../App";
 
 function BlogTrashList() {
+
+    const backendLink = useContext(BackendContext); 
 
     const [deletedBlogs, setDeletedBlogs] = useState();
 
     useEffect(() => {
-        fetch(`http://localhost:8000/v1/blog/deleted`)
+        fetch(`${backendLink}/blog/deleted`)
             .then(res => res.json())
             .then(data => setDeletedBlogs(data))
             .catch(err => console.log(err))
