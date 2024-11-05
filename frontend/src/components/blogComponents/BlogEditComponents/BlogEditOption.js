@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ToastContext, UserContext } from "../../../App";
+import { BackendContext, ToastContext, UserContext } from "../../../App";
 
 function BlogEditOption({ data }) {
+
+    const backendLink = useContext(BackendContext);
 
     const pageNavigate = useNavigate();
     const [old, title, thumbnail, content, [tags, setTags], blogId] = data;
@@ -27,7 +29,7 @@ function BlogEditOption({ data }) {
             deleted: old.deleted
         }
 
-        fetch(`http://localhost:8000/v1/blog/${blogId}`, {
+        fetch(`${backendLink}/blog/${blogId}`, {
             method: 'PUT',
             body: JSON.stringify(newBlog),
             headers: { "Content-Type": "application/json" },
@@ -45,7 +47,7 @@ function BlogEditOption({ data }) {
     }
 
     function handleDeleteChanges() {
-        fetch(`http://localhost:8000/v1/blog/${blogId}`, {
+        fetch(`${backendLink}/blog/${blogId}`, {
             method: 'PUT',
             body: JSON.stringify(old),
             headers: { "Content-Type": "application/json" },

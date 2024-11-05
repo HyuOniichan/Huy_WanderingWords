@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { BackendContext } from "../../../App";
 
 function BlogDetailPost() {
+
+    const backendLink = useContext(BackendContext); 
 
     const { id } = useParams();
     const [blog, setBlog] = useState();
 
     useEffect(() => {
-        fetch(`http://localhost:8000/v1/blog/${id}`)
+        fetch(`${backendLink}/blog/${id}`)
             .then(res => res.json())
             .then(data => setBlog(data))
             .catch(err => console.log(err))

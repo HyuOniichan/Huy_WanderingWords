@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { ToastContext } from "../../../App";
+import { BackendContext, ToastContext } from "../../../App";
 
 function BlogTrashCard({ deletedBlog, setDeletedBlogs }) {
+
+    const backendLink = useContext(BackendContext); 
 
     const handleToast = useContext(ToastContext);
 
@@ -13,7 +15,7 @@ function BlogTrashCard({ deletedBlog, setDeletedBlogs }) {
             return newDeletedBlogs; 
         })
         
-        fetch(`http://localhost:8000/v1/blog/${deletedBlog._id}`, {
+        fetch(`${backendLink}/blog/${deletedBlog._id}`, {
             method: 'DELETE'
         })
             .then(data => {
@@ -35,7 +37,7 @@ function BlogTrashCard({ deletedBlog, setDeletedBlogs }) {
             return newDeletedBlogs; 
         })
 
-        fetch(`http://localhost:8000/v1/blog/${deletedBlog._id}`, {
+        fetch(`${backendLink}/blog/${deletedBlog._id}`, {
             method: 'PUT',
             body: JSON.stringify(deletedBlog),
             headers: { "Content-Type": "application/json" },

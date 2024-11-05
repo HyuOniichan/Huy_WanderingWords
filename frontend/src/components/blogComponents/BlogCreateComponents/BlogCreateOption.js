@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { UserContext, ToastContext } from "../../../App";
+import { UserContext, ToastContext, BackendContext } from "../../../App";
 
 function BlogCreateOption({ data }) {
+
+    const backendLink = useContext(BackendContext); 
 
     const pageNavigate = useNavigate(); 
     const [title, thumbnail, content] = data;
@@ -27,7 +29,7 @@ function BlogCreateOption({ data }) {
             deleted: false
         }
 
-        fetch("http://localhost:8000/v1/blog", {
+        fetch(`${backendLink}/blog`, {
             method: 'POST',
             body: JSON.stringify(newBlog),
             headers: { "Content-Type": "application/json" },

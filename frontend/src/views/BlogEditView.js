@@ -2,9 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import { BackBtn, BlogEditField, BlogEditOption } from "../components";
-import { ToastContext, UserContext } from "../App";
+import { BackendContext, ToastContext, UserContext } from "../App";
 
 function BlogEditView() {
+
+    const backendLink = useContext(BackendContext); 
 
     const { id } = useParams();
     const [old, setOld] = useState();
@@ -18,7 +20,7 @@ function BlogEditView() {
     const handleToast = useContext(ToastContext);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/v1/blog/${id}`)
+        fetch(`${backendLink}/blog/${id}`)
             .then(res => res.json())
             .then(data => {
                 setOld(data);
