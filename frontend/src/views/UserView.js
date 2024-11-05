@@ -16,7 +16,7 @@ function UserView() {
             .then(res => res.json())
             .then(data => setProfile(data[0]))
             .catch(err => console.log(err))
-    }, [username])
+    }, [username, backendLink])
 
     return (
         <div className="position-relative px-5" data-bs-spy="scroll" data-bs-target="#userTabs" data-bs-smooth-scroll="true" tabIndex="0">

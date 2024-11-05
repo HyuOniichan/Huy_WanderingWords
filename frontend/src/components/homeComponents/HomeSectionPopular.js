@@ -13,7 +13,7 @@ const HomeSectionPopular = () => {
             .then(res => res.json())
             .then(data => setBlogs(data))
             .catch(err => console.log(err))
-    }, [])
+    }, [backendLink])
 
     // Inline styles
     const sectionStyle = {

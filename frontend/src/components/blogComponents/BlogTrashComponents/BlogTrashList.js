@@ -13,7 +13,7 @@ function BlogTrashList() {
             .then(res => res.json())
             .then(data => setDeletedBlogs(data))
             .catch(err => console.log(err))
-    }, [])
+    }, [backendLink])
 
     return (
         <div>
