@@ -26,6 +26,12 @@ function BlogEditField({ data }) {
             return newContent; 
         })
     }
+    
+    function handleResizeTextarea(e) {
+        const textarea = e.target; 
+        textarea.style.height = 'auto'; 
+        textarea.style.height = `${textarea.scrollHeight}px`; 
+    }
 
     return (
         <div className="col-md-8">
@@ -67,6 +73,8 @@ function BlogEditField({ data }) {
                                 className="form-control mb-4" 
                                 placeholder="Leave a comment here"
                                 onChange={e => editSection(index, null, e.target.value)}
+                                onInput={handleResizeTextarea}
+                                style={{ overflow: 'hidden' }}
                             ></textarea>
                             <label>Content</label>
                         </div>
