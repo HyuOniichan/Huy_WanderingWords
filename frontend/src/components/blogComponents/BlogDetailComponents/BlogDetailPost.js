@@ -16,14 +16,16 @@ function BlogDetailPost() {
             .catch(err => console.log(err))
     }, [id, backendLink])
 
-    console.log(blog);
-
     const blogContent = document.getElementById('blogContent'); 
     if (blog && blogContent) blogContent.innerHTML = blog.content.map(section => `
         <h2>${section.heading}</h2>
-        <div>${section.text}</div>   
-    `) 
-
+        <div>
+            ${section.text ? section.text
+                .split('\n')
+                .map(para => `<p>${para}</p>`)
+                .join('') : ``}
+        </div> 
+    `).join('');
 
     return (
         <div className="col-md-8 pt-4">
