@@ -74,7 +74,7 @@ function BlogCreateEdit({ data }) {
                                 placeholder="Leave a comment here"
                                 onChange={e => editSection(index, null, e.target.value)}
                                 onInput={handleResizeTextarea}
-                                style={{ overflow: 'hidden', resize: 'none' }}
+                                style={{ overflow: 'hidden' }}
                             ></textarea>
                             <label>Content</label>
                         </div>
