@@ -10,8 +10,18 @@ const app = express();
 
 // middleware 
 app.use(express.json())
+
+const allowedOrigins = [
+    "http://localhost:3000", 
+    "https://wanderingwords.onrender.com", 
+]
 app.use(cors({
-    origin: "https://wanderingwords.onrender.com", 
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) callback(null, true) 
+        else callback(new Error('Not allowed by CORS'), false) 
+    }, 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    credentials: true, 
 })); 
 
 // start 
