@@ -14,7 +14,7 @@ function BlogCreateView() {
     return (
         <div className="row position-relative pt-5">
             <BlogCreateEdit data={[[title, setTitle], [thumbnail, setThumbnail], [content, setContent]]} />
-            <BlogCreateOption data={[title, thumbnail, content]} setThumbnail={setThumbnail} />
+            <BlogCreateOption data={[title, thumbnail, content]} />
             <BackBtn />
         </div>
     )

@@ -5,7 +5,6 @@ function BlogEditField({ data }) {
     const [title, setTitle] = data[0]; 
     const [thumbnail, setThumbnail] = data[1]; 
     const [content, setContent] = data[2]; 
-    // const [publicId, setPublicId] = data[3];
     const [preview, setPreview] = useState(); 
 
     function updateSections(newSec, index = -1) {

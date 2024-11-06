@@ -1,9 +1,7 @@
-import { useContext, useEffect, useState } from "react";
-import { ToastContext } from "../../../App";
+import { useEffect, useState } from "react";
 
 function BlogCreateEdit({ data }) {
 
-    const handleToast = useContext(ToastContext);
     const [title, setTitle] = data[0];
     const [thumbnail, setThumbnail] = data[1];
     const [content, setContent] = data[2];
@@ -38,8 +36,8 @@ function BlogCreateEdit({ data }) {
         textarea.style.height = `${textarea.scrollHeight}px`;
     }
 
+    // Cleanup 
     useEffect(() => {
-        // Cleanup 
         return () => {
             preview && URL.revokeObjectURL(preview)
         }

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { UserContext, ToastContext, BackendContext } from "../../../App";
 
-function BlogCreateOption({ data, setThumbnail }) {
+function BlogCreateOption({ data }) {
 
     const backendLink = useContext(BackendContext);
 
@@ -46,8 +46,11 @@ function BlogCreateOption({ data, setThumbnail }) {
             const data = await res.json();
 
             if (data.errors) throw new Error(data.message || 'An error occured');
-            if (!data.secure_url)
-                handleToast('warn', 'fail to upload image', `The error maybe due to running out of free photo storage, but the blog will try to save.`);
+            if (!data.secure_url) handleToast(
+                    'warn', 
+                    'fail to upload image', 
+                    'The error maybe due to running out of free photo storage, however the blog will continue trying to save'
+                );
 
             newBlog.thumbnail = data.secure_url;
 
@@ -61,7 +64,7 @@ function BlogCreateOption({ data, setThumbnail }) {
                     // console.log(data);
                     if (data.errors) throw new Error(data.message || 'An error occured')
                     if (data._id) pageNavigate(`/blog/${data._id}`)
-                    handleToast('check', 'succeed', `Your blog created`);
+                    handleToast('check', 'succeed', `Your blog saved`);
                 })
                 .catch(err => {
                     console.log(err);
