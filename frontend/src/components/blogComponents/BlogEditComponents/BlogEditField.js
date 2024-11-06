@@ -1,8 +1,12 @@
+import { useEffect, useState } from "react";
+
 function BlogEditField({ data }) {
 
     const [title, setTitle] = data[0]; 
     const [thumbnail, setThumbnail] = data[1]; 
     const [content, setContent] = data[2]; 
+    // const [publicId, setPublicId] = data[3];
+    const [preview, setPreview] = useState(); 
 
     function updateSections(newSec, index = -1) {
         function inc() {
@@ -33,6 +37,21 @@ function BlogEditField({ data }) {
         textarea.style.height = `${textarea.scrollHeight}px`; 
     }
 
+    useEffect(() => {
+        // Cleanup 
+        return () => {
+            preview && URL.revokeObjectURL(preview); 
+        }
+    }, [preview])
+
+    function handleThumbnail(e) {
+        const file = e.target.files[0];
+        console.log(file)
+        if (file) setPreview(URL.createObjectURL(file));
+            else setPreview(undefined);
+        setThumbnail(file || undefined);
+    }
+
     return (
         <div className="col-md-8">
             <h1>Editing blog</h1>
@@ -47,15 +66,18 @@ function BlogEditField({ data }) {
                         id="title"
                     />
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="thumbnail" className="form-label"></label>
+                <h5 className="mt-4">Thumbnail</h5>
+                {<div>
+                    <img src={preview || thumbnail} alt='preview' className="img-fluid" />
+                </div>}
+                <div className="input-group my-3">
                     <input
-                        value={thumbnail}
-                        onChange={e => setThumbnail(e.target.value)}
-                        placeholder="thumbnail (link)"
+                        type="file"
+                        onChange={handleThumbnail}
                         className="form-control"
                         id="thumbnail"
                     />
+                    <label htmlFor="thumbnail" className="input-group-text">Thumbnail</label>
                 </div>
                 <div id="sections">
                     {content? content.map((section, index) => <div key={index} className="position-relative pt-4">

@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { ToastContext } from "../../../App";
-// import UploadWidget from "../../baseComponents/UploadWidget";
 
 function BlogCreateEdit({ data }) {
 
@@ -46,11 +45,6 @@ function BlogCreateEdit({ data }) {
         }
     }, [preview])
 
-    // ERROR: WITH THIS CODE, I WILL NEED TO UPLOAD WHATEVER USER CHOOSE, SO THIS WILL GONNA BOOM 
-    // FIX: JUST USE NORMAL UPLOAD URL.CREATEOBJECTURL (F8) AND JUST USE FETCH WHEN SUBMIT 
-
-    // CURRENT BUG: CLOUDINARY CLOUD NAME IS UNDEFINED???
-
     function handleThumbnail(e) {
         const file = e.target.files[0];
         setPreview(file && URL.createObjectURL(file));
@@ -80,8 +74,6 @@ function BlogCreateEdit({ data }) {
                     />
                     <label htmlFor="thumbnail" className="input-group-text">Thumbnail</label>
                 </div>
-                {/* <p className="mt-3 mb-0">Thumbnail</p>
-                <UploadWidget />  */}
                 {thumbnail && (<div>
                     <img src={preview} alt='preview' className="img-fluid" />
                 </div>)}
