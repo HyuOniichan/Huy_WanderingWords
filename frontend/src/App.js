@@ -16,7 +16,7 @@ export const ToastContext = createContext();
 
 function App() {
 
-	const backendLink = `https://wanderingwords-server.onrender.com/v1`; 
+	const backendLink = process.env.REACT_APP_BACKEND_URL; 
 
 	const [currentUser, setCurrentUser] = useState(); 
 	const currentUsername = 'hyuhyu'; 

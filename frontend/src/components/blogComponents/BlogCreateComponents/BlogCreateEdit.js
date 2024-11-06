@@ -1,21 +1,24 @@
+import { useEffect, useState } from "react";
+
 function BlogCreateEdit({ data }) {
 
-    const [title, setTitle] = data[0]; 
-    const [thumbnail, setThumbnail] = data[1]; 
-    const [content, setContent] = data[2]; 
+    const [title, setTitle] = data[0];
+    const [thumbnail, setThumbnail] = data[1];
+    const [content, setContent] = data[2];
+    const [preview, setPreview] = useState();
 
     function updateSections(newSec, index = -1) {
         function inc() {
             setContent(prev => [...prev, {
-                heading: '', 
+                heading: '',
                 text: ''
             }])
         }
         function dec() {
             setContent(prev => prev.filter((_, i) => i !== index))
         }
-        if (newSec) inc(); 
-            else dec(); 
+        if (newSec) inc();
+        else dec();
     }
 
     function editSection(id, heading, text) {
@@ -23,14 +26,27 @@ function BlogCreateEdit({ data }) {
             const newContent = [...prev]
             if (heading || heading === '') newContent[id].heading = heading
             if (text || text === '') newContent[id].text = text
-            return newContent; 
+            return newContent;
         })
     }
-    
+
     function handleResizeTextarea(e) {
-        const textarea = e.target; 
-        textarea.style.height = 'auto'; 
-        textarea.style.height = `${textarea.scrollHeight}px`; 
+        const textarea = e.target;
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+
+    // Cleanup 
+    useEffect(() => {
+        return () => {
+            preview && URL.revokeObjectURL(preview)
+        }
+    }, [preview])
+
+    function handleThumbnail(e) {
+        const file = e.target.files[0];
+        setPreview(file && URL.createObjectURL(file));
+        setThumbnail(file || undefined);
     }
 
     return (
@@ -47,39 +63,41 @@ function BlogCreateEdit({ data }) {
                         id="title"
                     />
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="thumbnail" className="form-label"></label>
+                <div className="input-group my-3">
                     <input
-                        value={thumbnail}
-                        onChange={e => setThumbnail(e.target.value)}
-                        placeholder="thumbnail (link)"
+                        type="file"
+                        onChange={handleThumbnail}
                         className="form-control"
                         id="thumbnail"
                     />
+                    <label htmlFor="thumbnail" className="input-group-text">Thumbnail</label>
                 </div>
+                {thumbnail && (<div>
+                    <img src={preview} alt='preview' className="img-fluid" />
+                </div>)}
                 <div id="sections">
-                    {content? content.map((section, index) => <div key={index} className="position-relative pt-4">
+                    {content ? content.map((section, index) => <div key={index} className="position-relative pt-4">
                         <div className="mb-2">
                             <input
                                 value={section.heading}
-                                placeholder={`${index+1}. Heading`}
+                                placeholder={`${index + 1}. Heading`}
                                 className="form-control"
                                 onChange={e => editSection(index, e.target.value, null)}
                             />
                         </div>
                         <div className="form-floating">
-                            <textarea 
+                            <textarea
                                 value={section.text}
-                                className="form-control mb-4" 
+                                className="form-control mb-4"
                                 placeholder="Leave a comment here"
                                 onChange={e => editSection(index, null, e.target.value)}
                                 onInput={handleResizeTextarea}
-                                style={{ overflow: 'hidden', resize: 'none' }}
+                                style={{ overflow: 'hidden' }}
                             ></textarea>
                             <label>Content</label>
                         </div>
-                        <button 
-                            type="button" className="btn-close position-absolute top-0 end-0" 
+                        <button
+                            type="button" className="btn-close position-absolute top-0 end-0"
                             aria-label="Close"
                             onClick={() => updateSections(false, index)}
                         ></button>
