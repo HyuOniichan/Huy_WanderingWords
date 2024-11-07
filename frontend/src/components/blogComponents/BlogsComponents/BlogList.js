@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
 import WaitingPage from "../../baseComponents/WaitingPage";
 import { BackendContext } from "../../../App";
+import BackBtn from "../../baseComponents/BackBtn";
 
 function BlogList() {
 
@@ -11,7 +12,16 @@ function BlogList() {
     const [blogs, setBlogs] = useState();
     
     useEffect(() => {
-        fetch(`${backendLink}/blog`)
+        const searchQuery = new URLSearchParams(window.location.search);
+        const queryArr = ['title']; 
+
+        const queryFetch = searchQuery && queryArr.map(q => 
+            (searchQuery.get(q) !== null) && `${q}=${searchQuery.get(q)}`
+        ).join('&'); 
+
+        console.log(queryFetch)
+        
+        fetch(`${backendLink}/blog${queryFetch && `?${queryFetch}`}`)
             .then(res => res.json())
             .then(data => setBlogs(data))
             .catch(err => console.log(err))
@@ -19,6 +29,8 @@ function BlogList() {
 
     return (
         <div>
+            {/* Press back button to refresh all GET req */}
+            <BackBtn /> 
             <h1 className="m-4">Blogs</h1>
             <div className="row mb-2">
                 {blogs ? blogs.map((blog, index) => <BlogCard key={index} blog={blog} />) : <WaitingPage />}
