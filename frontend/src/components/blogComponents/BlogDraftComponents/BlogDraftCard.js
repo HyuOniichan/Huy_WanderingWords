@@ -1,16 +1,17 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BackendContext, ToastContext } from "../../../App";
 
 function BlogDraftCard({ draftBlog, setDraftBlogs }) {
 
+    const pageNavigate = useNavigate();
     const backendLink = useContext(BackendContext);
     const handleToast = useContext(ToastContext);
 
     function handleDelete() {
         setDraftBlogs(prev => {
             const newDraftBlogs = prev.filter(blog => blog._id !== draftBlog._id);
-            return newDraftBlogs; 
+            return newDraftBlogs;
         })
 
         draftBlog.deleted = true;
@@ -20,6 +21,7 @@ function BlogDraftCard({ draftBlog, setDraftBlogs }) {
             body: JSON.stringify(draftBlog),
             headers: { "Content-Type": "application/json" },
         })
+            .then(res => res.json())
             .then(data => {
                 console.log(data);
                 if (data.errors) throw new Error(data.message || 'An error occured')
@@ -29,7 +31,32 @@ function BlogDraftCard({ draftBlog, setDraftBlogs }) {
                 console.log(err);
                 handleToast('error', 'failed', `${err}`);
             })
+    }
 
+    function handlePublish() {
+        setDraftBlogs(prev => {
+            const newDraftBlogs = prev.filter(blog => blog._id !== draftBlog._id);
+            return newDraftBlogs;
+        })
+
+        draftBlog.published = true;
+
+        fetch(`${backendLink}/blog/${draftBlog._id}`, {
+            method: 'PUT',
+            body: JSON.stringify(draftBlog),
+            headers: { "Content-Type": "application/json" },
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.errors) throw new Error(data.message || 'An error occured')
+                handleToast('check', 'succeed', 'Your blog published successfully');
+                if (data._id) pageNavigate(`/blog/${data._id}`);
+            })
+            .catch(err => {
+                console.log(err);
+                handleToast('error', 'failed', `${err}`);
+            })
     }
 
     return (
@@ -43,6 +70,9 @@ function BlogDraftCard({ draftBlog, setDraftBlogs }) {
                         {draftBlog.createdAt ? ` - published on ${draftBlog.createdAt}` : ``}
                     </div>
                     <div className="row w-100 gap-2">
+                        <button className="col-3 btn btn-success" onClick={() => handlePublish()}>
+                            Publish
+                        </button>
                         <Link to={`/blog/${draftBlog._id}/edit`} className="col-3 btn btn-primary">
                             Edit
                         </Link>

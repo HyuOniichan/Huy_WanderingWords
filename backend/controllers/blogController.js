@@ -6,7 +6,7 @@ class blogController {
     show(req, res, next) {
         const options = {
             deleted: false,
-            // published: true 
+            published: true 
         }
         // Normalize characters (converts Vietnamese accents to base characters)
         if (req.query.title) {

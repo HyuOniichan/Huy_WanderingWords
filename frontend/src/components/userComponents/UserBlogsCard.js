@@ -9,7 +9,7 @@ function UserBlogsCard({ profileState }) {
     const currentUser = useContext(UserContext);
     const isMe = (currentUser && currentUser[0].username === username);
     const [profile, setProfile] = profileState;
-    const blogs = profile ? profile.blogs.filter(blog => !blog.deleted) : [];
+    const blogs = profile ? profile.blogs.filter(blog => (!blog.deleted && blog.published)) : [];
     const [chosen, setChosen] = useState(-1);
     const [showPreview, setShowPreview] = useState(null);
 
