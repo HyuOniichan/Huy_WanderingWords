@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
 import WaitingPage from "../../baseComponents/WaitingPage";
 import { BackendContext } from "../../../App";
-import BackBtn from "../../baseComponents/BackBtn";
 
 function BlogList() {
 
@@ -29,8 +28,6 @@ function BlogList() {
 
     return (
         <div>
-            {/* Press back button to refresh all GET req */}
-            <BackBtn /> 
             <h1 className="m-4">Blogs</h1>
             <div className="row mb-2">
                 {blogs ? blogs.map((blog, index) => <BlogCard key={index} blog={blog} />) : <WaitingPage />}
