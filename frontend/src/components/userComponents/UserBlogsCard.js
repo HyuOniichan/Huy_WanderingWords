@@ -9,7 +9,7 @@ function UserBlogsCard({ profileState }) {
     const currentUser = useContext(UserContext);
     const isMe = (currentUser && currentUser[0].username === username);
     const [profile, setProfile] = profileState;
-    const blogs = profile ? profile.blogs.filter(blog => !blog.deleted) : [];
+    const blogs = profile ? profile.blogs.filter(blog => (!blog.deleted && blog.published)) : [];
     const [chosen, setChosen] = useState(-1);
     const [showPreview, setShowPreview] = useState(null);
 
@@ -25,9 +25,14 @@ function UserBlogsCard({ profileState }) {
                     <div className="card-body">
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <h5 className="card-title m-0 fs-4">Blogs</h5>
-                            {isMe? <Link to='/blog/trash'>
-                                <button className="btn btn-danger">Trash</button>
-                            </Link> : ``}
+                            <div>
+                                {isMe? <Link to='/blog/draft'>
+                                    <button className="btn btn-secondary me-2">Draft</button>
+                                </Link> : ``}
+                                {isMe? <Link to='/blog/trash'>
+                                    <button className="btn btn-danger">Trash</button>
+                                </Link> : ``}
+                            </div>
                         </div>
                         <div className="list-group">
                             {(blogs && blogs.length) ? blogs.map((blog, index) => <button

@@ -17,7 +17,7 @@ function BlogDetailPost() {
     }, [id, backendLink])
 
     const blogContent = document.getElementById('blogContent'); 
-    if (blog && blogContent) blogContent.innerHTML = blog.content.map(section => `
+    if (blog && blogContent && blog.content) blogContent.innerHTML = blog.content.map(section => `
         <h2>${section.heading}</h2>
         <div>
             ${section.text ? section.text
@@ -30,7 +30,7 @@ function BlogDetailPost() {
     return (
         <div className="col-md-8 pt-4">
             <div className="text-body-secondary">
-                {blog ? blog.author.name : 'Anonymous'} {(blog && blog.createdAt)? ` - published on ${blog.createdAt}` : ``}
+                {(blog && blog.author) ? blog.author.name : 'Anonymous'} {(blog && blog.createdAt)? ` - published on ${blog.createdAt}` : ``}
             </div>
             <h1>{blog ? blog.title : `Title`}</h1>
             <img src={blog ? blog.thumbnail : ``} alt="thumbnail" className="img-fluid my-4" />
