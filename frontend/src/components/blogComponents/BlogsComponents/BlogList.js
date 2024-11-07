@@ -11,7 +11,16 @@ function BlogList() {
     const [blogs, setBlogs] = useState();
     
     useEffect(() => {
-        fetch(`${backendLink}/blog`)
+        const searchQuery = new URLSearchParams(window.location.search);
+        const queryArr = ['title']; 
+
+        const queryFetch = searchQuery && queryArr.map(q => 
+            (searchQuery.get(q) !== null) && `${q}=${searchQuery.get(q)}`
+        ).join('&'); 
+
+        console.log(queryFetch)
+        
+        fetch(`${backendLink}/blog${queryFetch && `?${queryFetch}`}`)
             .then(res => res.json())
             .then(data => setBlogs(data))
             .catch(err => console.log(err))

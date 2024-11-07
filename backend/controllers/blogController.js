@@ -4,7 +4,16 @@ const userData = require('../models/userModel');
 class blogController {
     // [GET] /blog
     show(req, res, next) {
-        blogData.find({ deleted: false }).populate('author')
+        const options = {
+            deleted: false,
+        }
+        // Normalize characters (converts Vietnamese accents to base characters)
+        if (req.query.title) {
+            let cleanedQuery = req.query.title.replace(/-/g, '');
+            cleanedQuery = cleanedQuery.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            options.title = { $regex: req.query.title, $options: 'i' }; 
+        }
+        blogData.find(options).populate('author')
             .then(data => res.status(200).json(data))
             .catch(err => res.json(err))
     }
@@ -21,7 +30,7 @@ class blogController {
         blogData.find({ deleted: true }).populate('author')
             .then(data => res.status(200).json(data))
             .catch(err => res.json(err))
-    } 
+    }
 
     // [POST] /blog
     create(req, res, next) {
@@ -33,7 +42,7 @@ class blogController {
             .then(createdBlog => {
                 if (req.body && req.body.author) {
                     userData.findByIdAndUpdate(
-                        req.body.author, 
+                        req.body.author,
                         { $push: { blogs: createdBlog._id } }
                     )
                         .then(result => console.log(result))
