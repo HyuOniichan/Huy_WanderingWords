@@ -19,6 +19,8 @@ import BlogDetailPost from './blogComponents/BlogDetailComponents/BlogDetailPost
 import BlogDetailRelated from './blogComponents/BlogDetailComponents/BlogDetailRelated'
 import BlogEditField from './blogComponents/BlogEditComponents/BlogEditField'
 import BlogEditOption from './blogComponents/BlogEditComponents/BlogEditOption'
+import BlogDraftCard from './blogComponents/BlogDraftComponents/BlogDraftCard'
+import BlogDraftList from './blogComponents/BlogDraftComponents/BlogDraftList'
 import BlogTrashCard from './blogComponents/BlogTrashComponents/BlogTrashCard'
 import BlogTrashList from './blogComponents/BlogTrashComponents/BlogTrashList'
 
@@ -37,5 +39,6 @@ export {
     BlogDetailPost, BlogDetailRelated,
     BlogEditField, BlogEditOption,
     BlogTrashList, BlogTrashCard, 
+    BlogDraftCard, BlogDraftList, 
     UserBlogsCard, UserBlogsPreview, UserNavTabs, UserProfileCard,
 }; 

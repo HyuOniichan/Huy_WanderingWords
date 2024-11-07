@@ -6,6 +6,7 @@ class blogController {
     show(req, res, next) {
         const options = {
             deleted: false,
+            // published: true 
         }
         // Normalize characters (converts Vietnamese accents to base characters)
         if (req.query.title) {
@@ -28,6 +29,13 @@ class blogController {
     // [GET] /blog/deleted
     showDeleted(req, res, next) {
         blogData.find({ deleted: true }).populate('author')
+            .then(data => res.status(200).json(data))
+            .catch(err => res.json(err))
+    }
+
+    // [GET] /blog/draft
+    showDraft(req, res, next) {
+        blogData.find({ deleted: false, published: false }).populate('author')
             .then(data => res.status(200).json(data))
             .catch(err => res.json(err))
     }
