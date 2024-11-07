@@ -5,18 +5,18 @@ import { UserContext, ToastContext, BackendContext } from "../../../App";
 
 function BlogCreateOption({ data }) {
 
-    const backendLink = useContext(BackendContext); 
+    const backendLink = useContext(BackendContext);
 
-    const pageNavigate = useNavigate(); 
+    const pageNavigate = useNavigate();
     const [title, thumbnail, content] = data;
     const [tags, setTags] = useState('');
-    const currentUser = useContext(UserContext); 
-    const currentUserId = currentUser? currentUser[0]._id : ``;
-    const handleToast = useContext(ToastContext); 
+    const currentUser = useContext(UserContext);
+    const currentUserId = currentUser ? currentUser[0]._id : ``;
+    const handleToast = useContext(ToastContext);
 
-    function saveDraft() {
+    async function saveDraft() {
         const arrTags = tags.trim().split(',').map(tag => tag.trim()).filter(e => e);
-        const arrContent = content.filter(e => e.heading); 
+        const arrContent = content.filter(e => e.heading);
 
         const newBlog = {
             title: title,
@@ -25,26 +25,56 @@ function BlogCreateOption({ data }) {
             author: currentUserId,
             tags: arrTags,
             comments: [],
-            published: false, 
+            published: false,
             deleted: false
         }
 
-        fetch(`${backendLink}/blog`, {
-            method: 'POST',
-            body: JSON.stringify(newBlog),
-            headers: { "Content-Type": "application/json" },
-        })
-            .then(res => res.json())
-            .then(data => {
-                // console.log(data);
-                if (data.errors) throw new Error(data.message || 'An error occured')
-                if (data._id) pageNavigate(`/blog/${data._id}`)
-                handleToast('check', 'succeed', `Your blog created`); 
+        try {
+            const formData = new FormData();
+            formData.append('file', thumbnail);
+            formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+
+            const response = fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                method: 'POST',
+                body: formData
             })
-            .catch(err => {
-                // console.log(err); 
-                handleToast('error', 'failed', `${err}`); 
+
+            if (typeof response.json === 'function' && !response.json().secure_url && !response.ok) 
+                throw new Error('Fail to send your local image');
+            
+            const res = await response;
+            const data = await res.json();
+
+            if (data.errors) throw new Error(data.message || 'An error occured');
+            if (!data.secure_url) handleToast(
+                    'warn', 
+                    'fail to upload image', 
+                    'The error maybe due to running out of free photo storage, however the blog will continue trying to save'
+                );
+
+            newBlog.thumbnail = data.secure_url;
+
+            fetch(`${backendLink}/blog`, {
+                method: 'POST',
+                body: JSON.stringify(newBlog),
+                headers: { "Content-Type": "application/json" },
             })
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data);
+                    if (data.errors) throw new Error(data.message || 'An error occured')
+                    if (data._id) pageNavigate(`/blog/${data._id}`)
+                    handleToast('check', 'succeed', `Your blog saved`);
+                })
+                .catch(err => {
+                    console.log(err);
+                    handleToast('error', 'failed', `${err}`);
+                })
+
+        } catch (error) {
+            handleToast('error', 'failed', `${error}`);
+        }
+
     }
 
     return (

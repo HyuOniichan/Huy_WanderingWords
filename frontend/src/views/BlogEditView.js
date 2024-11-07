@@ -15,6 +15,9 @@ function BlogEditView() {
     const [content, setContent] = useState([{ heading: '', text: '' }]);
     const [tags, setTags] = useState('');
 
+    // Cloudinary image public id  
+    const [publicId, setPublicId] = useState(); 
+
     useEffect(() => {
         fetch(`${backendLink}/blog/${id}`)
             .then(res => res.json())
@@ -32,8 +35,8 @@ function BlogEditView() {
 
     return (
         <div className="row position-relative pt-5">
-            <BlogEditField data={[[title, setTitle], [thumbnail, setThumbnail], [content, setContent]]} />
-            <BlogEditOption data={[old, title, thumbnail, content, [tags, setTags], id]} />
+            <BlogEditField data={[[title, setTitle], [thumbnail, setThumbnail], [content, setContent], [publicId, setPublicId]]} />
+            <BlogEditOption data={[old, title, thumbnail, content, [tags, setTags], id, [publicId, setPublicId]]} />
             <BackBtn />
         </div>
     )

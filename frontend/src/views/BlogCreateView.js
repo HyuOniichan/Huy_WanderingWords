@@ -5,7 +5,7 @@ import { BackBtn, BlogCreateEdit, BlogCreateOption } from "../components/";
 function BlogCreateView() {
 
     const [title, setTitle] = useState('');
-    const [thumbnail, setThumbnail] = useState('');
+    const [thumbnail, setThumbnail] = useState();
     const [content, setContent] = useState([{
         heading: '',
         text: '',
