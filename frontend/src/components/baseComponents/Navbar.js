@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
+import Modal from './Modal';
 
 function Navbar() {
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top" style={{ zIndex: 99 }}>
+        <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top z-3">
             <div className="container-fluid">
                 <Link to="/" className="navbar-brand">
                     <img src="./logo.png" alt="logo" style={{ width: 28 }} />
@@ -24,7 +25,6 @@ function Navbar() {
                     </ul>
                     <form className="d-flex mx-auto" role="search">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     <div>
                         <Link to='/blog/create'>
