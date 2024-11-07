@@ -90,7 +90,7 @@ const HomeSectionPopular = () => {
 
                     <div className="col-xl-7">
                         <div className="row gy-4">
-                            {blogs ? blogs.map((blog, index) => (
+                            {blogs ? blogs.map((blog, index) => (index < 4) && (
                                 <div className="col-md-6" key={index}>
                                     <Link to={`/blog/${blog._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                         <div style={iconBoxStyle}>
