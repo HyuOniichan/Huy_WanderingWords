@@ -1,48 +1,48 @@
 import { createContext, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { Navbar, Footer, Toast } from './components';
+import { Navbar, Footer, Toast, Modal } from './components';
 import HomeView from "./views/HomeView";
 import BlogsView from './views/BlogsView';
 import BlogDetailView from './views/BlogDetailView';
 import BlogCreateView from './views/BlogCreateView';
-import BlogEditView from './views/BlogEditView'; 
-import BlogTrashView from './views/BlogTrashView'; 
+import BlogEditView from './views/BlogEditView';
+import BlogTrashView from './views/BlogTrashView';
 import UserView from './views/UserView';
 
-export const BackendContext = createContext(); 
-export const UserContext = createContext(); 
-export const ToastContext = createContext(); 
+export const BackendContext = createContext();
+export const UserContext = createContext();
+export const ToastContext = createContext();
 
 function App() {
 
-	const backendLink = process.env.REACT_APP_BACKEND_URL; 
+	const backendLink = process.env.REACT_APP_BACKEND_URL;
 
-	const [currentUser, setCurrentUser] = useState(); 
-	const currentUsername = 'hyuhyu'; 
+	const [currentUser, setCurrentUser] = useState();
+	const currentUsername = 'hyuhyu';
 	const [toast, setToast] = useState([])
 
 	useEffect(() => {
-		fetch(`${backendLink}/user/${currentUsername}`) 
+		fetch(`${backendLink}/user/${currentUsername}`)
 			.then(res => res.json())
 			.then(data => setCurrentUser(data))
 			.catch(err => console.log(err))
 	}, [currentUsername, backendLink])
 
 	function handleToast(type = 'warn', header = '?', msg = '???') {
-		const toastId = Date.now(); 
+		const toastId = Date.now();
 		setToast(prev => [
-			...prev, 
+			...prev,
 			{
-				id: toastId, 
-				type, 
-				header, 
-				msg, 
+				id: toastId,
+				type,
+				header,
+				msg,
 			}
 		])
 		setTimeout(() => {
 			setToast(prev => {
-				const cur = prev.filter(e => e.id !== toastId); 
+				const cur = prev.filter(e => e.id !== toastId);
 				return cur;
 			})
 		}, 5000)

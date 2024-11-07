@@ -34,7 +34,7 @@ const HomeSectionHero = () => {
 
     const containerStyle = {
         position: 'relative',
-        zIndex: 3,
+        zIndex: 2,
         color: 'white', 
         textAlign: 'center',
         width: '100%'

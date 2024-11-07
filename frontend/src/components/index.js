@@ -3,6 +3,7 @@ import Navbar from './baseComponents/Navbar'
 import Footer from './baseComponents/Footer'
 import BackBtn from './baseComponents/BackBtn'
 import Toast from './baseComponents/Toast'
+import Modal from './baseComponents/Modal'
 
 // Home components
 import HomeSectionHero from './homeComponents/HomeSectionHero'
@@ -29,7 +30,7 @@ import UserProfileCard from './userComponents/UserProfileCard'
 
 // Export 
 export {
-    Navbar, Footer, BackBtn, Toast, 
+    Navbar, Footer, BackBtn, Toast, Modal,
     HomeSectionHero, HomeSectionPopular, HomeSectionStat, 
     BlogCard, BlogList,
     BlogCreateEdit, BlogCreateOption,
