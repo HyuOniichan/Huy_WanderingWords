@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function BlogEditField({ data }) {
 
-    const [title, setTitle] = data[0]; 
-    const [thumbnail, setThumbnail] = data[1]; 
-    const [content, setContent] = data[2]; 
-    const [preview, setPreview] = useState(); 
+    const [title, setTitle] = data[0];
+    const [thumbnail, setThumbnail] = data[1];
+    const [content, setContent] = data[2];
+    const [preview, setPreview] = useState();
+    const fileInputRef = useRef(null); 
 
     function updateSections(newSec, index = -1) {
         function inc() {
             setContent(prev => [...prev, {
-                heading: '', 
+                heading: '',
                 text: ''
             }])
         }
         function dec() {
             setContent(prev => prev.filter((_, i) => i !== index))
         }
-        if (newSec) inc(); 
-            else dec(); 
+        if (newSec) inc();
+        else dec();
     }
 
     function editSection(id, heading, text) {
@@ -26,28 +27,30 @@ function BlogEditField({ data }) {
             const newContent = [...prev]
             if (heading || heading === '') newContent[id].heading = heading
             if (text || text === '') newContent[id].text = text
-            return newContent; 
+            return newContent;
         })
     }
-    
+
     function handleResizeTextarea(e) {
-        const textarea = e.target; 
-        textarea.style.height = 'auto'; 
-        textarea.style.height = `${textarea.scrollHeight}px`; 
+        const textarea = e.target;
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
     }
 
     useEffect(() => {
         // Cleanup 
         return () => {
-            preview && URL.revokeObjectURL(preview); 
+            preview && URL.revokeObjectURL(preview);
         }
     }, [preview])
 
     function handleThumbnail(e) {
-        const file = e.target.files[0];
-        console.log(file)
+        const file = e && e.target.files[0];
         if (file) setPreview(URL.createObjectURL(file));
-            else setPreview(undefined);
+            else {
+                setPreview(undefined);
+                fileInputRef.current.value = ''; 
+            }
         setThumbnail(file || undefined);
     }
 
@@ -65,13 +68,26 @@ function BlogEditField({ data }) {
                         id="title"
                     />
                 </div>
-                <h5 className="mt-4">Thumbnail</h5>
-                {<div>
-                    <img src={preview || thumbnail} alt='preview' className="img-fluid" />
-                </div>}
+                <div className="position-relative">
+                    <h5 className="mt-4">Thumbnail</h5>
+                    {thumbnail ?
+                        <>
+                            <img src={preview || thumbnail} alt='preview' className="img-fluid" />
+                            <button
+                                type="button"
+                                className="btn-close position-absolute top-0 end-0"
+                                aria-label="Close"
+                                onClick={() => handleThumbnail(undefined)}
+                            ></button>
+                        </> :
+                        <p>No thumbnail chosen</p>
+                    }
+                </div>
+
                 <div className="input-group my-3">
                     <input
                         type="file"
+                        ref={fileInputRef}
                         onChange={handleThumbnail}
                         className="form-control"
                         id="thumbnail"
@@ -79,19 +95,19 @@ function BlogEditField({ data }) {
                     <label htmlFor="thumbnail" className="input-group-text">Thumbnail</label>
                 </div>
                 <div id="sections">
-                    {content? content.map((section, index) => <div key={index} className="position-relative pt-4">
+                    {content ? content.map((section, index) => <div key={index} className="position-relative pt-4">
                         <div className="mb-2">
                             <input
                                 value={section.heading}
-                                placeholder={`${index+1}. Heading`}
+                                placeholder={`${index + 1}. Heading`}
                                 className="form-control"
                                 onChange={e => editSection(index, e.target.value, null)}
                             />
                         </div>
                         <div className="form-floating">
-                            <textarea 
+                            <textarea
                                 value={section.text}
-                                className="form-control mb-4" 
+                                className="form-control mb-4"
                                 placeholder="Leave a comment here"
                                 onChange={e => editSection(index, null, e.target.value)}
                                 onInput={handleResizeTextarea}
@@ -99,8 +115,8 @@ function BlogEditField({ data }) {
                             ></textarea>
                             <label>Content</label>
                         </div>
-                        <button 
-                            type="button" className="btn-close position-absolute top-0 end-0" 
+                        <button
+                            type="button" className="btn-close position-absolute top-0 end-0"
                             aria-label="Close"
                             onClick={() => updateSections(false, index)}
                         ></button>

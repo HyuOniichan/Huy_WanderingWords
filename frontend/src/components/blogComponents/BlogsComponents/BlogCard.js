@@ -17,7 +17,7 @@ function BlogCard({ blog }) {
                     </Link>
                 </div>
                 <div className="col-auto d-none d-lg-block">
-                    <img src={blog.thumbnail} alt="thumbnail" style={{ height: 260, objectFit: 'cover' }} />
+                    {blog.thumbnail && <img src={blog.thumbnail} alt="thumbnail" style={{ height: 260, objectFit: 'cover' }} />}
                 </div>
             </div>
         </div >

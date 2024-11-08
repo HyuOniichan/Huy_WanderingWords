@@ -76,7 +76,11 @@ function BlogTrashCard({ deletedBlog, setDeletedBlogs }) {
                     </div>
                 </div>
                 <div className="col-auto d-none d-lg-block">
-                    <img src={deletedBlog.thumbnail} alt="thumbnail" style={{ height: 260, objectFit: 'cover' }} />
+                    {deletedBlog.thumbnail && <img 
+                        src={deletedBlog.thumbnail} 
+                        alt="thumbnail" 
+                        style={{ height: 260, objectFit: 'cover' }} 
+                    />}
                 </div>
             </div>
         </div >
