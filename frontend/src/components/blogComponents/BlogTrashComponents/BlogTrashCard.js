@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { BackendContext, ToastContext } from "../../../App";
 
 function BlogTrashCard({ deletedBlog, setDeletedBlogs }) {
@@ -69,14 +68,11 @@ function BlogTrashCard({ deletedBlog, setDeletedBlogs }) {
                         {deletedBlog.author.name ? deletedBlog.author.name : 'Anonymous'}
                         {deletedBlog.updatedAt ? ` - deleted on ${handleDate(deletedBlog.updatedAt)}` : ``}
                     </div>
-                    <div className="row w-100 gap-2">
-                        <Link to={`/blog/${deletedBlog._id}/edit`} className="col-3 btn btn-primary">
-                            Edit
-                        </Link>
-                        <button className="col-3 btn btn-success" onClick={() => handleRestore()}>
+                    <div className="row w-100 gap-1 ms-1 mt-1">
+                        <button className="btn btn-success" onClick={() => handleRestore()}>
                             Restore
                         </button>
-                        <button className="col-3 btn btn-danger" onClick={() => handleDestroy()}>
+                        <button className="btn btn-danger" onClick={() => handleDestroy()}>
                             Destroy
                         </button>
                     </div>
