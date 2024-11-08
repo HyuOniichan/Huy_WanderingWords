@@ -17,8 +17,6 @@ function BlogList() {
         const queryFetch = searchQuery && queryArr.map(q => 
             (searchQuery.get(q) !== null) && `${q}=${searchQuery.get(q)}`
         ).join('&'); 
-
-        console.log(queryFetch)
         
         fetch(`${backendLink}/blog${queryFetch && `?${queryFetch}`}`)
             .then(res => res.json())

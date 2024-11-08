@@ -59,6 +59,12 @@ function BlogDraftCard({ draftBlog, setDraftBlogs }) {
             })
     }
 
+    function handleDate(dateString) {
+        let newDateString = dateString.slice(0, 10).split('-');
+        newDateString.reverse();
+        return newDateString.join('/');
+    }
+
     return (
         <div className="col-md-4">
             <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -67,7 +73,7 @@ function BlogDraftCard({ draftBlog, setDraftBlogs }) {
                     <h3 className="mb-0">{draftBlog.title}</h3>
                     <div className="mb-1 text-body-secondary">
                         {draftBlog.author.name ? draftBlog.author.name : 'Anonymous'}
-                        {draftBlog.createdAt ? ` - published on ${draftBlog.createdAt}` : ``}
+                        {draftBlog.createdAt && ` - draft created on ${handleDate(draftBlog.createdAt)}`}
                     </div>
                     <div className="row w-100 gap-2">
                         <button className="col-3 btn btn-success" onClick={() => handlePublish()}>
@@ -82,10 +88,10 @@ function BlogDraftCard({ draftBlog, setDraftBlogs }) {
                     </div>
                 </div>
                 <div className="col-auto d-none d-lg-block">
-                    {draftBlog.thumbnail && <img 
-                        src={draftBlog.thumbnail} 
-                        alt="thumbnail" 
-                        style={{ height: 260, objectFit: 'cover' }} 
+                    {draftBlog.thumbnail && <img
+                        src={draftBlog.thumbnail}
+                        alt="thumbnail"
+                        style={{ height: 260, objectFit: 'cover' }}
                     />}
                 </div>
             </div>

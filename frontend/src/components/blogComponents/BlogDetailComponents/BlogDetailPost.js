@@ -27,10 +27,17 @@ function BlogDetailPost() {
         </div> 
     `).join('');
 
+    function handleDate(dateString) {
+        let newDateString = dateString.slice(0, 10).split('-');
+        newDateString.reverse();
+        return newDateString.join('/');
+    }
+
     return (
         <div className="col-md-8 pt-4">
             <div className="text-body-secondary">
-                {(blog && blog.author) ? blog.author.name : 'Anonymous'} {(blog && blog.createdAt)? ` - published on ${blog.createdAt}` : ``}
+                {(blog && blog.author) ? blog.author.name : 'Anonymous'} 
+                {(blog && blog.updatedAt)? ` - published on ${handleDate(blog.updatedAt)}` : ``}
             </div>
             <h1>{blog ? blog.title : `Title`}</h1>
             {(blog && blog.thumbnail) && <img src={blog.thumbnail} alt="thumbnail" className="img-fluid my-4" />}
