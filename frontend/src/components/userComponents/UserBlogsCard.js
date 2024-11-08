@@ -3,12 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import UserBlogsPreview from "./UserBlogsPreview";
 import { UserContext } from "../../App";
 
-function UserBlogsCard({ profileState }) {
+function UserBlogsCard({ profile }) {
 
     const { username } = useParams();
     const currentUser = useContext(UserContext);
     const isMe = (currentUser && currentUser[0].username === username);
-    const [profile, setProfile] = profileState;
     const blogs = profile ? profile.blogs.filter(blog => (!blog.deleted && blog.published)) : [];
     const [chosen, setChosen] = useState(-1);
     const [showPreview, setShowPreview] = useState(null);
@@ -51,7 +50,6 @@ function UserBlogsCard({ profileState }) {
             {showPreview ? <UserBlogsPreview
                 blog={showPreview}
                 setShowPreview={setShowPreview}
-                profileState={profileState}
             /> : ''}
 
         </section>

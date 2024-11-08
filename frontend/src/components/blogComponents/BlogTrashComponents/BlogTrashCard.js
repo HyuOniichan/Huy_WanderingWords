@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { BackendContext, ToastContext } from "../../../App";
 
 function BlogTrashCard({ deletedBlog, setDeletedBlogs }) {
@@ -53,6 +52,12 @@ function BlogTrashCard({ deletedBlog, setDeletedBlogs }) {
             })
     }
 
+    function handleDate(dateString) {
+        let newDateString = dateString.slice(0, 10).split('-');
+        newDateString.reverse();
+        return newDateString.join('/');
+    }
+
     return (
         <div className="col-md-4">
             <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -61,22 +66,23 @@ function BlogTrashCard({ deletedBlog, setDeletedBlogs }) {
                     <h3 className="mb-0">{deletedBlog.title}</h3>
                     <div className="mb-1 text-body-secondary">
                         {deletedBlog.author.name ? deletedBlog.author.name : 'Anonymous'}
-                        {deletedBlog.createdAt ? ` - published on ${deletedBlog.createdAt}` : ``}
+                        {deletedBlog.updatedAt ? ` - deleted on ${handleDate(deletedBlog.updatedAt)}` : ``}
                     </div>
-                    <div className="row w-100 gap-2">
-                        <Link to={`/blog/${deletedBlog._id}/edit`} className="col-3 btn btn-primary">
-                            Edit
-                        </Link>
-                        <button className="col-3 btn btn-success" onClick={() => handleRestore()}>
+                    <div className="row w-100 gap-1 ms-1 mt-1">
+                        <button className="btn btn-success" onClick={() => handleRestore()}>
                             Restore
                         </button>
-                        <button className="col-3 btn btn-danger" onClick={() => handleDestroy()}>
+                        <button className="btn btn-danger" onClick={() => handleDestroy()}>
                             Destroy
                         </button>
                     </div>
                 </div>
                 <div className="col-auto d-none d-lg-block">
-                    <img src={deletedBlog.thumbnail} alt="thumbnail" style={{ height: 260, objectFit: 'cover' }} />
+                    {deletedBlog.thumbnail && <img 
+                        src={deletedBlog.thumbnail} 
+                        alt="thumbnail" 
+                        style={{ height: 260, objectFit: 'cover' }} 
+                    />}
                 </div>
             </div>
         </div >

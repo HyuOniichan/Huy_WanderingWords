@@ -17,6 +17,7 @@ import BlogCreateEdit from './blogComponents/BlogCreateComponents/BlogCreateEdit
 import BlogCreateOption from './blogComponents/BlogCreateComponents/BlogCreateOption'
 import BlogDetailPost from './blogComponents/BlogDetailComponents/BlogDetailPost'
 import BlogDetailRelated from './blogComponents/BlogDetailComponents/BlogDetailRelated'
+import BlogDetailOption from './blogComponents/BlogDetailComponents/BlogDetailOption'
 import BlogEditField from './blogComponents/BlogEditComponents/BlogEditField'
 import BlogEditOption from './blogComponents/BlogEditComponents/BlogEditOption'
 import BlogDraftCard from './blogComponents/BlogDraftComponents/BlogDraftCard'
@@ -36,7 +37,7 @@ export {
     HomeSectionHero, HomeSectionPopular, HomeSectionStat, 
     BlogCard, BlogList,
     BlogCreateEdit, BlogCreateOption,
-    BlogDetailPost, BlogDetailRelated,
+    BlogDetailPost, BlogDetailRelated, BlogDetailOption, 
     BlogEditField, BlogEditOption,
     BlogTrashList, BlogTrashCard, 
     BlogDraftCard, BlogDraftList, 

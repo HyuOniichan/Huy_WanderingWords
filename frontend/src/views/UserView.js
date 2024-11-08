@@ -22,7 +22,7 @@ function UserView() {
         <div className="position-relative px-5" data-bs-spy="scroll" data-bs-target="#userTabs" data-bs-smooth-scroll="true" tabIndex="0">
             <UserNavTabs />
             <UserProfileCard profile={profile} />
-            <UserBlogsCard profileState={[profile, setProfile]} />
+            <UserBlogsCard profile={profile} />
         </div>
     )
 }

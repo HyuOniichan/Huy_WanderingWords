@@ -1,62 +1,11 @@
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { BackendContext, ToastContext } from "../../../App";
+import { Link } from "react-router-dom";
 
-function BlogDraftCard({ draftBlog, setDraftBlogs }) {
+function BlogDraftCard({ draftBlog }) {
 
-    const pageNavigate = useNavigate();
-    const backendLink = useContext(BackendContext);
-    const handleToast = useContext(ToastContext);
-
-    function handleDelete() {
-        setDraftBlogs(prev => {
-            const newDraftBlogs = prev.filter(blog => blog._id !== draftBlog._id);
-            return newDraftBlogs;
-        })
-
-        draftBlog.deleted = true;
-
-        fetch(`${backendLink}/blog/${draftBlog._id}`, {
-            method: 'PUT',
-            body: JSON.stringify(draftBlog),
-            headers: { "Content-Type": "application/json" },
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.errors) throw new Error(data.message || 'An error occured')
-                handleToast('check', 'succeed', 'Moved to trash');
-            })
-            .catch(err => {
-                console.log(err);
-                handleToast('error', 'failed', `${err}`);
-            })
-    }
-
-    function handlePublish() {
-        setDraftBlogs(prev => {
-            const newDraftBlogs = prev.filter(blog => blog._id !== draftBlog._id);
-            return newDraftBlogs;
-        })
-
-        draftBlog.published = true;
-
-        fetch(`${backendLink}/blog/${draftBlog._id}`, {
-            method: 'PUT',
-            body: JSON.stringify(draftBlog),
-            headers: { "Content-Type": "application/json" },
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.errors) throw new Error(data.message || 'An error occured')
-                handleToast('check', 'succeed', 'Your blog published successfully');
-                if (data._id) pageNavigate(`/blog/${data._id}`);
-            })
-            .catch(err => {
-                console.log(err);
-                handleToast('error', 'failed', `${err}`);
-            })
+    function handleDate(dateString) {
+        let newDateString = dateString.slice(0, 10).split('-');
+        newDateString.reverse();
+        return newDateString.join('/');
     }
 
     return (
@@ -67,22 +16,20 @@ function BlogDraftCard({ draftBlog, setDraftBlogs }) {
                     <h3 className="mb-0">{draftBlog.title}</h3>
                     <div className="mb-1 text-body-secondary">
                         {draftBlog.author.name ? draftBlog.author.name : 'Anonymous'}
-                        {draftBlog.createdAt ? ` - published on ${draftBlog.createdAt}` : ``}
+                        {draftBlog.createdAt && ` - draft created on ${handleDate(draftBlog.createdAt)}`}
                     </div>
                     <div className="row w-100 gap-2">
-                        <button className="col-3 btn btn-success" onClick={() => handlePublish()}>
-                            Publish
-                        </button>
-                        <Link to={`/blog/${draftBlog._id}/edit`} className="col-3 btn btn-primary">
-                            Edit
+                        <Link to={`/blog/${draftBlog._id}`} className="col btn btn-primary px-0 ms-3 mt-2">
+                            Explore
                         </Link>
-                        <button className="col-3 btn btn-danger" onClick={() => handleDelete()}>
-                            Delete
-                        </button>
                     </div>
                 </div>
                 <div className="col-auto d-none d-lg-block">
-                    <img src={draftBlog.thumbnail} alt="thumbnail" style={{ height: 260, objectFit: 'cover' }} />
+                    {draftBlog.thumbnail && <img
+                        src={draftBlog.thumbnail}
+                        alt="thumbnail"
+                        style={{ height: 260, objectFit: 'cover' }}
+                    />}
                 </div>
             </div>
         </div >
