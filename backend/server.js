@@ -9,7 +9,9 @@ const route = require('./routes/index');
 const app = express(); 
 
 // middleware 
-app.use(express.json())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 const allowedOrigins = [
     "http://localhost:3000", 

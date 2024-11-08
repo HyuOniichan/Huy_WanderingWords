@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BackendContext, ToastContext, UserContext } from "../../../App";
@@ -13,6 +13,7 @@ function BlogEditOption({ data }) {
     const currentUserId = currentUser ? currentUser[0]._id : ``;
     const currentUsername = currentUser ? currentUser[0].username : ``;
     const handleToast = useContext(ToastContext);
+    const [disable, setDisable] = useState(false);
 
     async function handleUpdate() {
         const arrTags = tags.trim().split(',').map(tag => tag.trim()).filter(e => e);
@@ -28,6 +29,8 @@ function BlogEditOption({ data }) {
             published: old.published,
             deleted: old.deleted
         }
+
+        setDisable(true);
 
         // Delete previous saved image on Cloudinary 
         fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/destroy`, {
@@ -66,7 +69,7 @@ function BlogEditOption({ data }) {
                 handleToast('warn', 'fail to upload image', 'The error maybe due to running out of free photo storage, but the blog will continue trying to save');
 
             newBlog.thumbnail = data.secure_url;
-            getPublicId(data.secure_url); 
+            getPublicId(data.secure_url);
 
             fetch(`${backendLink}/blog/${blogId}`, {
                 method: 'PUT',
@@ -76,21 +79,23 @@ function BlogEditOption({ data }) {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
-                    if (data.errors) throw new Error(data.message || 'An error occured')
+                    if (data.errors) throw new Error(data.message || 'An error occured');
                     handleToast('check', 'succeed', 'Blog edited');
                 })
                 .catch(err => {
-                    console.log(err);
                     handleToast('error', 'failed', `${err}`);
                 })
 
         } catch (error) {
             handleToast('error', 'failed', `${error}`);
         }
+        setDisable(false); 
 
     }
 
     function handleDeleteChanges() {
+        setDisable(true);
+
         fetch(`${backendLink}/blog/${blogId}`, {
             method: 'PUT',
             body: JSON.stringify(old),
@@ -106,13 +111,14 @@ function BlogEditOption({ data }) {
             .catch(err => {
                 console.log(err);
                 handleToast('error', 'failed', `${err}`);
+                setDisable(false);
             })
     }
 
     function getPublicId(cldLink) {
-        const cldLinkArr = cldLink.split('/'); 
-        const nameArr = cldLinkArr[cldLinkArr.length-1].split('.'); 
-        setPublicId(nameArr[0]); 
+        const cldLinkArr = cldLink.split('/');
+        const nameArr = cldLinkArr[cldLinkArr.length - 1].split('.');
+        setPublicId(nameArr[0]);
     }
 
     return (
@@ -135,11 +141,13 @@ function BlogEditOption({ data }) {
                         type="button"
                         className="btn btn-danger w-100 text-center"
                         onClick={() => handleDeleteChanges()}
+                        disabled={disable}
                     >Delete changes</button>
                     <button
                         type="button"
                         className="btn btn-primary"
                         onClick={() => handleUpdate()}
+                        disabled={disable}
                     >Save blog</button>
                     {/* <button type="button" className="btn btn-success">Publish</button> */}
                 </div>

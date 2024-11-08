@@ -13,6 +13,7 @@ function BlogCreateOption({ data }) {
     const currentUser = useContext(UserContext);
     const currentUserId = currentUser ? currentUser[0]._id : ``;
     const handleToast = useContext(ToastContext);
+    const [disable, setDisable] = useState(false); 
 
     async function saveDraft() {
         const arrTags = tags.trim().split(',').map(tag => tag.trim()).filter(e => e);
@@ -28,6 +29,8 @@ function BlogCreateOption({ data }) {
             published: false,
             deleted: false
         }
+
+        setDisable(true); 
 
         try {
             const formData = new FormData();
@@ -49,7 +52,7 @@ function BlogCreateOption({ data }) {
             if (!data.secure_url) handleToast(
                     'warn', 
                     'fail to upload image', 
-                    'The error maybe due to running out of free photo storage, however the blog will continue trying to save'
+                    `The error maybe due to running out of free photo storage (or simply you don't choose image), however the blog will be saved`
                 );
 
             newBlog.thumbnail = data.secure_url;
@@ -64,15 +67,18 @@ function BlogCreateOption({ data }) {
                     // console.log(data);
                     if (data.errors) throw new Error(data.message || 'An error occured')
                     if (data._id) pageNavigate(`/blog/${data._id}`)
+                        else setDisable(false)
                     handleToast('check', 'succeed', `Your blog saved`);
                 })
                 .catch(err => {
                     console.log(err);
                     handleToast('error', 'failed', `${err}`);
+                    setDisable(false); 
                 })
 
         } catch (error) {
             handleToast('error', 'failed', `${error}`);
+            setDisable(false); 
         }
 
     }
@@ -94,12 +100,17 @@ function BlogCreateOption({ data }) {
                 <hr />
                 <div className="d-flex flex-column gap-1">
                     <Link to='/blog'>
-                        <button type="button" className="btn btn-danger w-100 text-center">Delete draft</button>
+                        <button 
+                            type="button" 
+                            className="btn btn-danger w-100 text-center"
+                            disabled={disable}
+                        >Delete draft</button>
                     </Link>
                     <button
                         type="button"
                         className="btn btn-primary"
                         onClick={() => saveDraft()}
+                        disabled={disable}
                     >Save draft</button>
                     {/* <button type="button" className="btn btn-success">Publish</button> */}
                 </div>

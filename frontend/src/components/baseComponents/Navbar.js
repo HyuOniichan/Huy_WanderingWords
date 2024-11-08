@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
-import Modal from './Modal';
 
 function Navbar() {
     return (
@@ -23,8 +22,15 @@ function Navbar() {
                             {/* <NavLink to="/" className={(navData) => (navData.isActive ? "active" : null)}>Blog</NavLink> */}
                         </li>
                     </ul>
-                    <form className="d-flex mx-auto" role="search">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    <form className="d-flex mx-auto" action='/blog' role="search">
+                        <input 
+                            className="form-control me-2" 
+                            type="search" 
+                            placeholder="Search" 
+                            aria-label="Search" 
+                            name="title"
+                        />
+                        <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     <div>
                         <Link to='/blog/create'>

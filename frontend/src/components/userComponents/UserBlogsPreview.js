@@ -19,28 +19,53 @@ function UserBlogsPreview({ blog, setShowPreview, profileState }) {
         }))
         setShowPreview(null)
 
-        const deletedIndex = profile.blogs.findIndex(e => e._id === blogId); 
-        const deletedBlog = profile.blogs[deletedIndex]; 
-        deletedBlog.deleted = true; 
+        const deletedIndex = profile.blogs.findIndex(e => e._id === blogId);
+        const deletedBlog = profile.blogs[deletedIndex];
+        deletedBlog.deleted = true;
 
         fetch(`${backendLink}/blog/${blogId}`, {
             method: 'PUT',
-            body: JSON.stringify(deletedBlog), 
+            body: JSON.stringify(deletedBlog),
             headers: { "Content-Type": "application/json" },
         })
             .then(data => {
                 console.log(data);
-                if (data.errors) throw new Error(data.message || 'An error occured') 
+                if (data.errors) throw new Error(data.message || 'An error occured')
                 handleToast('check', 'succeed', 'Moved to trash');
             })
             .catch(err => {
                 console.log(err);
-                handleToast('error', 'failed', `${err}`); 
+                handleToast('error', 'failed', `${err}`);
             })
 
     }
 
-    console.log(profile)
+    function handleDraft(blogId) {
+        setProfile(prev => ({
+            ...prev,
+            blogs: prev.blogs.filter(blog => blog._id !== blogId)
+        }))
+        setShowPreview(null)
+
+        const draftIndex = profile.blogs.findIndex(e => e._id === blogId);
+        const draftBlog = profile.blogs[draftIndex];
+        draftBlog.published = false;
+
+        fetch(`${backendLink}/blog/${blogId}`, {
+            method: 'PUT',
+            body: JSON.stringify(draftBlog),
+            headers: { "Content-Type": "application/json" },
+        })
+            .then(data => {
+                console.log(data);
+                if (data.errors) throw new Error(data.message || 'An error occured')
+                handleToast('check', 'succeed', 'No one can see this blog but you from now. Check it in Draft section');
+            })
+            .catch(err => {
+                console.log(err);
+                handleToast('error', 'failed', `${err}`);
+            })
+    }
 
     return (
         <div className="col-6">
@@ -55,6 +80,9 @@ function UserBlogsPreview({ blog, setShowPreview, profileState }) {
                         </Link>
                         {isMe ? <button className="btn btn-danger w-100" onClick={() => handleDelete(blog._id)}>
                             Delete
+                        </button> : ``}
+                        {isMe ? <button className="btn btn-secondary w-100" onClick={() => handleDraft(blog._id)}>
+                            Drafted
                         </button> : ``}
                     </div>
                 </div>
