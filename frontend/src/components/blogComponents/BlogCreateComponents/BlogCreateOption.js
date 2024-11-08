@@ -13,7 +13,7 @@ function BlogCreateOption({ data }) {
     const currentUser = useContext(UserContext);
     const currentUserId = currentUser ? currentUser[0]._id : ``;
     const handleToast = useContext(ToastContext);
-    const [disable, setDisable] = useState(false); 
+    const [disable, setDisable] = useState(false);
 
     async function saveDraft() {
         const arrTags = tags.trim().split(',').map(tag => tag.trim()).filter(e => e);
@@ -30,56 +30,57 @@ function BlogCreateOption({ data }) {
             deleted: false
         }
 
-        setDisable(true); 
+        setDisable(true);
 
-        try {
-            const formData = new FormData();
-            formData.append('file', thumbnail);
-            formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+        if (thumbnail) {
+            try {
+                const formData = new FormData();
+                formData.append('file', thumbnail);
+                formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
-            const response = fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
-                method: 'POST',
-                body: formData
-            })
+                const response = fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                    method: 'POST',
+                    body: formData
+                })
 
-            if (typeof response.json === 'function' && !response.json().secure_url && !response.ok) 
-                throw new Error('Fail to send your local image');
-            
-            const res = await response;
-            const data = await res.json();
+                if (typeof response.json === 'function' && !response.json().secure_url && !response.ok)
+                    throw new Error('Fail to send your local image');
 
-            if (data.errors) throw new Error(data.message || 'An error occured');
-            if (!data.secure_url) handleToast(
-                    'warn', 
-                    'fail to upload image', 
-                    `The error maybe due to running out of free photo storage (or simply you don't choose image), however the blog will be saved`
+                const res = await response;
+                const data = await res.json();
+
+                if (data.errors) throw new Error(data.message || 'An error occured');
+                if (!data.secure_url) handleToast(
+                    'warn',
+                    'fail to upload image',
+                    `The error maybe due to running out of free photo storage, therefore the blog will be saved as no thumbnail`
                 );
 
-            newBlog.thumbnail = data.secure_url;
+                newBlog.thumbnail = data.secure_url;
+            } catch (error) {
+                handleToast('error', 'failed', `${error}`);
+                setDisable(false);
+            }
+        } else newBlog.thumbnail = ''; 
 
-            fetch(`${backendLink}/blog`, {
-                method: 'POST',
-                body: JSON.stringify(newBlog),
-                headers: { "Content-Type": "application/json" },
+        fetch(`${backendLink}/blog`, {
+            method: 'POST',
+            body: JSON.stringify(newBlog),
+            headers: { "Content-Type": "application/json" },
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                if (data.errors) throw new Error(data.message || 'An error occured')
+                if (data._id) pageNavigate(`/blog/${data._id}`)
+                else setDisable(false)
+                handleToast('check', 'succeed', `Your blog saved`);
             })
-                .then(res => res.json())
-                .then(data => {
-                    // console.log(data);
-                    if (data.errors) throw new Error(data.message || 'An error occured')
-                    if (data._id) pageNavigate(`/blog/${data._id}`)
-                        else setDisable(false)
-                    handleToast('check', 'succeed', `Your blog saved`);
-                })
-                .catch(err => {
-                    console.log(err);
-                    handleToast('error', 'failed', `${err}`);
-                    setDisable(false); 
-                })
-
-        } catch (error) {
-            handleToast('error', 'failed', `${error}`);
-            setDisable(false); 
-        }
+            .catch(err => {
+                console.log(err);
+                handleToast('error', 'failed', `${err}`);
+                setDisable(false);
+            })
 
     }
 
@@ -100,8 +101,8 @@ function BlogCreateOption({ data }) {
                 <hr />
                 <div className="d-flex flex-column gap-1">
                     <Link to='/blog'>
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             className="btn btn-danger w-100 text-center"
                             disabled={disable}
                         >Delete draft</button>

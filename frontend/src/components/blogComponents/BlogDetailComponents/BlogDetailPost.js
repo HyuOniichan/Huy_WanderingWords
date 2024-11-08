@@ -33,7 +33,7 @@ function BlogDetailPost() {
                 {(blog && blog.author) ? blog.author.name : 'Anonymous'} {(blog && blog.createdAt)? ` - published on ${blog.createdAt}` : ``}
             </div>
             <h1>{blog ? blog.title : `Title`}</h1>
-            <img src={blog ? blog.thumbnail : ``} alt="thumbnail" className="img-fluid my-4" />
+            {(blog && blog.thumbnail) && <img src={blog.thumbnail} alt="thumbnail" className="img-fluid my-4" />}
             <div id="blogContent"></div>
         </div>
     )

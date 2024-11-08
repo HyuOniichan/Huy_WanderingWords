@@ -82,7 +82,11 @@ function BlogDraftCard({ draftBlog, setDraftBlogs }) {
                     </div>
                 </div>
                 <div className="col-auto d-none d-lg-block">
-                    <img src={draftBlog.thumbnail} alt="thumbnail" style={{ height: 260, objectFit: 'cover' }} />
+                    {draftBlog.thumbnail && <img 
+                        src={draftBlog.thumbnail} 
+                        alt="thumbnail" 
+                        style={{ height: 260, objectFit: 'cover' }} 
+                    />}
                 </div>
             </div>
         </div >

@@ -10,10 +10,7 @@ const blogSchema = new Schema({
     title: { type: String, required: true },
     content: [contentSchema],
     author: { type: Schema.Types.ObjectId, ref: 'User' },
-    thumbnail: {
-        type: String, 
-        default: 'https://i.sstatic.net/l60Hf.png'
-    }, 
+    thumbnail: String, 
     tags: [String],
     comments: [String],
     published: Boolean, 
