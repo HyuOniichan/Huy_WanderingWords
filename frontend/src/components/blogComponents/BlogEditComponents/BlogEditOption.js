@@ -32,25 +32,38 @@ function BlogEditOption({ data }) {
 
         setDisable(true);
 
-        // Delete previous saved image on Cloudinary 
-        fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/destroy`, {
-            method: 'POST',
-            body: JSON.stringify({
-                public_id: publicId,
-                api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
-            }),
-            headers: { "Content-Type": "application/json" }
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data.messages)
-                if (data.errors) throw new Error('An error occured while changing image')
-            })
-            .catch(err => handleToast('warn', 'warning', `${err}`))
-
-        console.log(thumbnail)
-
         if (thumbnail) {
+            if (thumbnail.type && thumbnail.name) {
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+
+                const fileType = thumbnail.type;
+                const fileExtension = thumbnail.name.split('.').pop().toLowerCase();
+
+                if (!allowedTypes.includes(fileType) && !allowedExtensions.includes(fileExtension)) {
+                    handleToast('error', 'Image required', 'Please choose an image file (PNG, JPG, GIF)');
+                    setDisable(false);
+                    return;
+                }
+            }
+
+            // Delete previous saved image on Cloudinary 
+            fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/destroy`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    public_id: publicId,
+                    api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
+                }),
+                headers: { "Content-Type": "application/json" }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.messages)
+                    if (data.errors) throw new Error('An error occured while changing image')
+                })
+                .catch(err => handleToast('warn', 'warning', `${err}`))
+
+            // Upload image to Cloudinary 
             try {
                 const formData = new FormData();
                 formData.append('file', thumbnail);
@@ -81,8 +94,8 @@ function BlogEditOption({ data }) {
             } catch (error) {
                 handleToast('error', 'failed', `${error}`);
             }
-        } else newBlog.thumbnail = ''; 
-        
+        } else newBlog.thumbnail = '';
+
 
         fetch(`${backendLink}/blog/${blogId}`, {
             method: 'PUT',
