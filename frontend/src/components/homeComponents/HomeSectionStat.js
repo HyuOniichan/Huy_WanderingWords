@@ -1,82 +1,70 @@
-import React from 'react';
+import Icon from "../baseComponents/Icon";
 
-function HomeSectionStat() {
-    // Inline styles
-    const sectionStyle = {
-        position: 'relative',
-        padding: '120px 0',
-        marginTop: '40px'
-    };
-
-    const imgStyle = {
-        position: 'absolute',
-        inset: 0,
-        display: 'block',
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        zIndex: 1,
-    };
-    
-
-    const overlayStyle = {
-        content: '""',
-        background: 'rgba(0, 0, 0, 0.4)', 
-        position: 'absolute',
-        inset: 0,
-        zIndex: 2,
-    };
-
-    const containerStyle = {
-        position: 'relative',
-        zIndex: 3,
-    };
-
-    const statsItemStyle = {
-        padding: '30px',
-        width: '100%',
-        textAlign: 'center',
-    };
-
-    const statsValueStyle = {
-        fontSize: '24px',
-        display: 'block',
-        color: '#fff',
-        fontWeight: 700,
-    };
-
-    const statsLabelStyle = {
-        padding: 0,
-        margin: 0,
-        fontFamily: 'var(--heading-font)',
-        fontSize: '16px',
-        fontWeight: 700,
-        color: 'rgba(255, 255, 255, 0.8)', 
-    };
+const HomeSectionStat = () => {
+    const features = [
+        {
+            icon: <Icon type={'article'} />,
+            title: 'Blogs',
+            description: `Easily create and manage blogs with WW. 
+                The powerful block editor allows for seamless blog post creation, 
+                enabling you to write, format, and organize content effortlessly. 
+                Customize layouts, add rich media, and enhance readability with 
+                just a few clicks.
+            `, 
+            count: '521'
+        },
+        {
+            icon: <Icon type={'view'} />,
+            title: 'Views',
+            description: `WW allows you to build dynamic, visually appealing layouts 
+                that change based on user interactions. With integrated block patterns 
+                and customizable views, you can tailor how your content is presented, 
+                ensuring a perfect experience on every device.
+            `, 
+            count: '1453'
+        },
+        {
+            icon: <Icon type={'person'} />,
+            title: 'Users',
+            description: `Engage your audience with intuitive user management tools. 
+                WW simplifies the process of adding, managing, and interacting with users, 
+                allowing you to build a seamless, personalized experience and have 
+                full control over user interactions on your site.
+            `, 
+            count: '232'
+        },
+    ];
 
     return (
-        <section id="stats" className="stats section dark-background" style={sectionStyle}>
-            <img src="/images/cover2.jpg" alt="cover" style={imgStyle} />
-            <div className="container" style={containerStyle}>
-                <div className="row gy-4">
-                    {[
-                        { end: 232, label: 'Blogs' },
-                        { end: 521, label: 'Comments' },
-                        { end: 1453, label: 'Views' },
-                        { end: 32, label: 'Users' },
-                    ].map((stat, index) => (
-                        <div className="col-lg-3 col-md-6" key={index}>
-                            <div className="stats-item" style={statsItemStyle}>
-                                <span style={statsValueStyle}>{stat.end}</span>
-                                <p style={statsLabelStyle}>{stat.label}</p>
-                            </div>
+        <section style={{ padding: '40px 20px' }}>
+            <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between' }}>
+                {features.map((feature, index) => (
+                    <div key={index} style={{
+                        width: '32%',
+                        backgroundColor: 'white',
+                        padding: '30px',
+                        borderRadius: '12px',
+                        border: '2px solid #D9E9E7',
+                        textAlign: 'center',
+                        boxSizing: 'border-box',
+                    }}>
+                        {feature.icon}
+                        <h3 style={{ fontSize: '24px', margin: '15px 0' }}><strong>{feature.title}</strong></h3>
+                        <p style={{ fontSize: '16px', lineHeight: '1.5' }}>{feature.description}</p>
+                        <div>
+                            <p style={{
+                                    color: '#7F8C8D',
+                                    textDecoration: 'none',
+                                    fontWeight: 'bold'
+                                }}>
+                                {feature.count} {feature.title}
+                            </p>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
-            <div style={overlayStyle}></div>
         </section>
     );
-};
+}
 
 export default HomeSectionStat;

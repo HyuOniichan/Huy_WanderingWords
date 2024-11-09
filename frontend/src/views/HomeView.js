@@ -3,10 +3,10 @@ import { HomeSectionHero, HomeSectionPopular, HomeSectionStat } from "../compone
 function HomeView() {
 
     return (
-        <main>
+        <main className="position-relative">
             <HomeSectionHero />
-            <HomeSectionPopular /> 
             <HomeSectionStat /> 
+            <HomeSectionPopular /> 
         </main>
     )
 }
