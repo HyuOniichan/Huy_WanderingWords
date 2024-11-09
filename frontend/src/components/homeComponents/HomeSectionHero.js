@@ -57,8 +57,8 @@ const HomeSectionHero = () => {
             <img src="/images/cover.jpg" alt="cover" style={imgStyle} />
             <div style={overlayStyle}></div>
             <div className="container" style={containerStyle}>
-                <div className="row">
-                    <div className="col-lg-10" style={{ marginTop: 60 }}>
+                <div className="row text-center">
+                    <div className="" style={{ marginTop: 60 }}>
                         <h2 style={headingStyle}>Wandering Words</h2>
                         <p style={paragraphStyle}>
                             Where words roam free
