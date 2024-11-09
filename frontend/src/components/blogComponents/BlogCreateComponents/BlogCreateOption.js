@@ -33,6 +33,19 @@ function BlogCreateOption({ data }) {
         setDisable(true);
 
         if (thumbnail) {
+
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+
+            const fileType = thumbnail.type;
+            const fileExtension = thumbnail.name.split('.').pop().toLowerCase();
+
+            if (!allowedTypes.includes(fileType) && !allowedExtensions.includes(fileExtension)) {
+                handleToast('error', 'Image required', 'Please choose an image file (png, jpg or gif)'); 
+                setDisable(false);
+                return;
+            }
+
             try {
                 const formData = new FormData();
                 formData.append('file', thumbnail);
@@ -61,7 +74,7 @@ function BlogCreateOption({ data }) {
                 handleToast('error', 'failed', `${error}`);
                 setDisable(false);
             }
-        } else newBlog.thumbnail = ''; 
+        } else newBlog.thumbnail = '';
 
         fetch(`${backendLink}/blog`, {
             method: 'POST',

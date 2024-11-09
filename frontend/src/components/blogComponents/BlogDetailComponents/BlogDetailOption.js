@@ -48,7 +48,7 @@ function BlogDetailOption({ blog }) {
                 handleToast(
                     'check',
                     `${data.published ? 'Publish' : 'Set as draft'} succeed`,
-                    (data.published ? 'Your blog published successfully' : 'You can see your blog in Draft section')
+                    'Done'
                 );
                 if (data._id) pageNavigate(`/blog/${data._id}`);
                 setDisable(false); 

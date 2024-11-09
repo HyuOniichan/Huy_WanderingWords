@@ -27,9 +27,9 @@ function BlogDetailPost({ blog }) {
                     (blog.createdAt && ` - draft created on ${handleDate(blog.createdAt)}`)
                 )}
             </div>
-            <h1>{blog ? blog.title : `Title`}</h1>
+            <h1 style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>{blog ? blog.title : `Title`}</h1>
             {(blog && blog.thumbnail) && <img src={blog.thumbnail} alt="thumbnail" className="img-fluid my-4" />}
-            <div id="blogContent"></div>
+            <div id="blogContent" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}></div>
         </div>
     )
 }
