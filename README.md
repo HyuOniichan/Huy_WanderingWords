@@ -29,8 +29,9 @@ Website: [wanderingwords.onrender.com](https://wanderingwords.onrender.com/)
 
 This is a simple blog application built with the **MERN stack** (MongoDB, Express, React, Node.js). It allows users to:
 - CRUD actions: View, create, delete and edit blogs.
+- Search posts by title. 
 - Register, login, and authenticate. (Coming soon 😅)
-- Search posts by title and content. (Coming soon 😅) 
+- Chatbot (Coming soon 😅) 
 
 ---
 
