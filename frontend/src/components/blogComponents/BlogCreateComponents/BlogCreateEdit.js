@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function BlogCreateEdit({ data }) {
 
@@ -7,6 +7,9 @@ function BlogCreateEdit({ data }) {
     const [content, setContent] = data[2];
     const [preview, setPreview] = useState();
 
+    const textareaRefs = useRef([]);
+
+    // Add/ Remove sections
     function updateSections(newSec, index = -1) {
         function inc() {
             setContent(prev => [...prev, {
@@ -30,10 +33,10 @@ function BlogCreateEdit({ data }) {
         })
     }
 
-    function handleResizeTextarea(e) {
-        const textarea = e.target;
-        textarea.style.height = 'auto';
-        textarea.style.height = `${textarea.scrollHeight}px`;
+    // Auto resize content field 
+    function handleResizeContent(id) {
+        const textarea = textareaRefs.current[id]; 
+        if (textarea) textarea.style.height = `${textarea.scrollHeight}px`;
     }
 
     // Cleanup 
@@ -87,11 +90,12 @@ function BlogCreateEdit({ data }) {
                         </div>
                         <div className="form-floating">
                             <textarea
+                                ref={e => textareaRefs.current[index] = e}
                                 value={section.text}
                                 className="form-control mb-4"
                                 placeholder="Leave a comment here"
                                 onChange={e => editSection(index, null, e.target.value)}
-                                onInput={handleResizeTextarea}
+                                onInput={() => handleResizeContent(index)}
                                 style={{ overflow: 'hidden' }}
                             ></textarea>
                             <label>Content</label>
