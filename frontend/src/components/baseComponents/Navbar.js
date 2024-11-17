@@ -1,19 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 function Navbar() {
 
     const navigation = useNavigate();
+    const location = useLocation(); 
     const [searchParams, setSearchParams] = useState(''); 
     
     const handleSearch = useCallback(() => {
-        if (searchParams.trim()) navigation(`/blog/?title=${searchParams.trim()}`)
+        if (searchParams.trim()) navigation(`/blog?title=${searchParams.trim()}`)
             else navigation(`/blog`)
     }, [searchParams, navigation])
 
+    // Press Enter to search 
     const handleKeyDown = useCallback(e => {
-        if (e.key === 'Enter') handleSearch(); 
-    }, [handleSearch])
+        if (e.key === 'Enter' && (location.pathname === '/' || location.pathname === '/blog')) handleSearch(); 
+    }, [handleSearch, location.pathname])
 
     // Listen for key event (press Enter to search)
     useEffect(() => {
