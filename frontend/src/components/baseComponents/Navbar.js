@@ -1,14 +1,28 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
 
     const navigation = useNavigate();
     const [searchParams, setSearchParams] = useState(''); 
+    
+    const handleSearch = useCallback(() => {
+        if (searchParams.trim()) navigation(`/blog/?title=${searchParams.trim()}`)
+            else navigation(`/blog`)
+    }, [searchParams, navigation])
 
-    function handleSearch() {
-        navigation(`/blog/?title=${searchParams.trim()}`)
-    }
+    const handleKeyDown = useCallback(e => {
+        if (e.key === 'Enter') handleSearch(); 
+    }, [handleSearch])
+
+    // Listen for key event (press Enter to search)
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown); 
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown); 
+        }
+    }, [handleKeyDown])
 
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top z-3">
