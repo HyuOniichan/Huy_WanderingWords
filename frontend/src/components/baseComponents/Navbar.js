@@ -1,7 +1,29 @@
-import { Link } from 'react-router-dom';
-// import { NavLink } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
+
+    const navigation = useNavigate();
+    const [searchParams, setSearchParams] = useState(''); 
+    
+    const handleSearch = useCallback(() => {
+        if (searchParams.trim()) navigation(`/blog/?title=${searchParams.trim()}`)
+            else navigation(`/blog`)
+    }, [searchParams, navigation])
+
+    const handleKeyDown = useCallback(e => {
+        if (e.key === 'Enter') handleSearch(); 
+    }, [handleSearch])
+
+    // Listen for key event (press Enter to search)
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown); 
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown); 
+        }
+    }, [handleKeyDown])
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top z-3">
             <div className="container-fluid">
@@ -22,16 +44,21 @@ function Navbar() {
                             {/* <NavLink to="/" className={(navData) => (navData.isActive ? "active" : null)}>Blog</NavLink> */}
                         </li>
                     </ul>
-                    <form className="d-flex mx-auto" action='/blog' role="search">
-                        <input 
-                            className="form-control me-2" 
-                            type="search" 
-                            placeholder="Search" 
-                            aria-label="Search" 
-                            name="title"
+                    <div className="d-flex mx-auto">
+                        <input
+                            className="form-control me-2"
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                            value={searchParams}
+                            onChange={e => setSearchParams(e.target.value)}
                         />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                        <button 
+                            className="btn btn-outline-success" 
+                            type="button"
+                            onClick={handleSearch}
+                        >Search</button>
+                    </div>
                     <div>
                         <Link to='/blog/create'>
                             <button type="button" className="btn btn-primary me-3">
